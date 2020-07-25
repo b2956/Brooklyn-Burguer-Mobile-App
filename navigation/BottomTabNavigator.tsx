@@ -5,9 +5,11 @@ import * as React from 'react';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import TabOneScreen from '../screens/TabOneScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
-import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
+import Menu from '../screens/Menu';
+import Pedidos from '../screens/Pedidos';
+import Chat from '../screens/Chat';
+import Carrinho from '../screens/Carrinho';
+import { BottomTabParamList, MenuParamList, PedidosParamList } from '../types';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -16,20 +18,40 @@ export default function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
+      initialRouteName="Menu"
+      tabBarOptions={{ 
+        activeTintColor: Colors[colorScheme].tint,
+        style: {
+          background: '#999999',
+          color: '#000'
+        }
+      }}>
       <BottomTab.Screen
-        name="TabOne"
-        component={TabOneNavigator}
+        name="Menu"
+        component={Menu}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="ios-home" color={color} />,
         }}
       />
       <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoNavigator}
+        name="Pedidos"
+        component={Pedidos}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="ios-clipboard" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Chat"
+        component={Chat}
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="ios-chatbubbles" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Carrinho"
+        component={Carrinho}
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="md-cart" color={color} />,
         }}
       />
     </BottomTab.Navigator>
@@ -44,30 +66,30 @@ function TabBarIcon(props: { name: string; color: string }) {
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const TabOneStack = createStackNavigator<TabOneParamList>();
+const MenuStack = createStackNavigator<MenuParamList>();
 
-function TabOneNavigator() {
+function MenuNavigator() {
   return (
-    <TabOneStack.Navigator>
-      <TabOneStack.Screen
-        name="TabOneScreen"
-        component={TabOneScreen}
-        options={{ headerTitle: 'Tab One Title' }}
+    < MenuStack.Navigator>
+      < MenuStack.Screen
+        name="MenuScreen"
+        component={Menu}
+        options={{ headerTitle: 'Menu' }}
       />
-    </TabOneStack.Navigator>
+    </ MenuStack.Navigator>
   );
 }
 
-const TabTwoStack = createStackNavigator<TabTwoParamList>();
+const PedidosStack = createStackNavigator<PedidosParamList>();
 
-function TabTwoNavigator() {
+function PedidosNavigator() {
   return (
-    <TabTwoStack.Navigator>
-      <TabTwoStack.Screen
-        name="TabTwoScreen"
-        component={TabTwoScreen}
-        options={{ headerTitle: 'Tab Two Title' }}
+    <PedidosStack.Navigator>
+      <PedidosStack.Screen
+        name="PedidosScreen"
+        component={Pedidos}
+        options={{ headerTitle: 'Pedidos' }}
       />
-    </TabTwoStack.Navigator>
+    </PedidosStack.Navigator>
   );
 }
