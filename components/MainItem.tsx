@@ -1,12 +1,43 @@
-import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet  } from 'react-native';
 
 import { MainItemParams } from '../types';
 
+// import CustomImage from './CustomImage';
+import NumericInput from './NumericInput';
+
 const MainItem = (props: MainItemParams)  => {
+    const [quantity, setQuantity] = useState(1);
+
+    const addQuantityHandlerOnPress = () => {
+        setQuantity(quantity + 1);
+    }
+
+    const subtractQuantityHandlerOnPress = () => {
+        if (quantity > 1) {
+            setQuantity(quantity - 1);
+        }
+    }
 
     return (
         <View style={ styles.container }>
+            <Image source={require('../assets/images/hamburguer-Brooklyn.jpeg')} style={styles.img} />
+            <Text style={styles.title}>{props.name}</Text>
+            {/* <Text style={styles.discount}>{props.discount}% OFF</Text>  */}
+            <View style={styles.price}>
+                <Text style={{color: '#999'}}>De: </Text>
+                <Text style={styles.oldPrice}>R${props.price}</Text>
+                <Text>  Por: </Text>
+                <Text style={styles.newPrice}>R${(+props.price - (props.discount * +props.price)/ 100).toFixed(2)}</Text>
+            </View>
+            <View style={styles.addTooCart}>
+                <NumericInput 
+                    addQuantityOnPress={addQuantityHandlerOnPress}
+                    subtractQuantityOnPress={subtractQuantityHandlerOnPress}
+                    quantity={quantity}
+                />
+                <TouchableOpacity style={styles.button}><Text style={styles.buttonText}>Adicionar</Text></TouchableOpacity>
+            </View>
         </View>
     )
 }
@@ -15,7 +46,7 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
         borderRadius: 10,
-        height: 250,
+        height: 300,
         width: 200,
         marginHorizontal: 10,
         marginVertical: 10,
@@ -27,6 +58,63 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowRadius: 5.46,
         elevation: 9,
+        overflow: 'hidden',
+        display: "flex",
+        justifyContent: 'flex-start',
+        alignItems: 'center'
+    },
+    img: {
+        width: 180,
+        height: 180,
+        margin: 10,
+        borderRadius: 10
+    },
+    titleContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    discount: {
+        fontSize: 16,
+        fontWeight: '700',
+        color: 'red'
+    },
+    title: {
+        fontSize: 16,
+        fontWeight: '700',
+    },
+    price: {
+        display: 'flex',
+        width: '100%',
+        paddingHorizontal: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    oldPrice: {
+        color: '#999',
+        textDecorationLine: 'line-through',
+    },
+    newPrice: {
+        fontWeight: '700',
+        color: 'green'
+    },
+    addTooCart: {
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        alignItems: 'center',
+        flex: 1
+    },
+    button: {
+        backgroundColor: '#00ADEF',
+        height: 30,
+        width: 80,
+        borderRadius: 5,
+        alignItems: "center",
+        justifyContent: 'center',
+        marginLeft: 5
+    },
+    buttonText: {
+        color: '#fff'
     }
 })
 

@@ -24,7 +24,19 @@ export type ChatParamList = {
 
 export type MainItemParams = {
   name: string,
-  price: number,
+  price: string,
   ingredients: string[],
-  discount: number
+  discount: number,
+  imgUrl: string
+};
+
+export type CustomImageParams = {
+  imageName: any,
+  style: Object
+}
+
+export type NumericInputProps = {
+  addQuantityOnPress: any,
+  subtractQuantityOnPress: any,
+  quantity: number
 }

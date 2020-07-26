@@ -7,25 +7,30 @@ import MainItem from '../components/MainItem';
 
 
 import menu from '../assets/data/menu';
+import destaques from '../assets/data/destaques';
 
 export default function TabOneScreen() {
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Destaques & Promoções</Text>
       <ScrollView horizontal={true} style={styles.mainItemsContainer} showsHorizontalScrollIndicator={false} >
-        {menu.map((item, i) => {
+        {destaques.map((item, i) => {
           return (
             <MainItem 
               name={item.name}
               price={item.price}
               discount={item.discount}
               ingredients={item.ingredients}
+              imgUrl={item.imgUrl}
               key={i}
             />
           )
         })}
       </ScrollView>
-      <Text style={styles.title}>Menu</Text>
+      <Text style={styles.title}>Hamburguers</Text>
+      <Text style={styles.title}>Porções</Text>
+      <Text style={styles.title}>Molhos</Text>
+      <Text style={styles.title}>Bebidas</Text>
     </ScrollView>
   );
 }
@@ -44,6 +49,6 @@ const styles = StyleSheet.create({
     color: '#333'
   },
   mainItemsContainer: {
-    height: 280
+    height: 330
   }
 });
