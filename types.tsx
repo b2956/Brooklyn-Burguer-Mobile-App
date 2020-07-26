@@ -17,3 +17,14 @@ export type MenuParamList = {
 export type PedidosParamList = {
   PedidosScreen: undefined;
 };
+
+export type ChatParamList = {
+  ChatScreen: undefined;
+};
+
+export type MainItemParams = {
+  name: string,
+  price: number,
+  ingredients: string[],
+  discount: number
+}

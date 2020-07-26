@@ -9,7 +9,7 @@ import Menu from '../screens/Menu';
 import Pedidos from '../screens/Pedidos';
 import Chat from '../screens/Chat';
 import Carrinho from '../screens/Carrinho';
-import { BottomTabParamList, MenuParamList, PedidosParamList } from '../types';
+import { BottomTabParamList, MenuParamList, PedidosParamList, ChatParamList } from '../types';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -21,10 +21,6 @@ export default function BottomTabNavigator() {
       initialRouteName="Menu"
       tabBarOptions={{ 
         activeTintColor: Colors[colorScheme].tint,
-        style: {
-          background: '#999999',
-          color: '#000'
-        }
       }}>
       <BottomTab.Screen
         name="Menu"
@@ -92,4 +88,16 @@ function PedidosNavigator() {
       />
     </PedidosStack.Navigator>
   );
+}
+
+const ChatStack = createStackNavigator<ChatParamList>();
+
+function ChatNavigator() {
+  <ChatStack.Navigator>
+    <ChatStack.Screen
+      name="ChatScreen"
+      component={Chat}
+      options={{ headerTitle: 'Chat'}}
+    />
+  </ChatStack.Navigator>
 }
