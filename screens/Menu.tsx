@@ -46,7 +46,20 @@ export default function TabOneScreen() {
           })
         }
       <Text style={styles.title}>Combos</Text>
-
+        {
+          menu.combos.map((item, index) => {
+            return (
+              <MenuItem
+                name={item.name}
+                price={item.price}
+                imgFile={item.imgFile}
+                ingredients={item.ingredients}
+                discount={item.discount}
+                key={index}
+              />
+            )
+          })
+        }
       <Text style={styles.title}>Porções</Text>
         {
           menu.portions.map((item, index) => {

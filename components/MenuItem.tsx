@@ -5,6 +5,22 @@ import { MenuItemProps } from '../types';
 
 
 const MenuItem = (props: MenuItemProps) => {
+    let price;
+
+    if(props.price === null) {
+        price = <Text style={styles.price}>Variável</Text>
+    } else {
+        if(props.discount === 0 ) {
+            price = <Text style={styles.price}>R${(+props.price).toFixed(2)}</Text>
+        } else {
+            price = <View style={styles.priceWithDiscount}>
+                <Text style={styles.oldPrice}>R${(+props.price).toFixed(2)}</Text>
+                <Text style={styles.price}>R${(+props.price - (props.discount * +props.price)/ 100).toFixed(2)}</Text>
+            </View>
+        }
+    }
+
+
     return (
         <View style={styles.container}>
             <View style={styles.imgContainer}>
@@ -26,15 +42,7 @@ const MenuItem = (props: MenuItemProps) => {
                 }
                 </Text>
                 <View style={styles.actionsContainer}>
-                    {props.discount > 0 && 
-                        <View style={styles.priceWithDiscount}>
-                            <Text style={styles.oldPrice}>R${(+props.price).toFixed(2)}</Text>
-                            <Text style={styles.price}>R${(+props.price - (props.discount * +props.price)/ 100).toFixed(2)}</Text>
-                        </View>
-                    }
-                    { props.discount === 0 &&
-                        <Text style={styles.price}>R${(+props.price).toFixed(2)}</Text>
-                    }
+                    {price}         
                     <TouchableOpacity style={styles.button}>
                         <Text style={styles.buttonText}>Ver Detalhes</Text>
                     </TouchableOpacity>
@@ -99,7 +107,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     priceWithDiscount: {
-        flexDirection: 'row',
+        flexDirection: 'column',
         flexWrap: 'nowrap',
         flex: 1
     },

@@ -154,6 +154,18 @@ const menu = {
             main: true
         }
     ],
+    combos: [
+        {
+            name: 'Combos',
+            imgFile: require('../images/combo.jpg'),
+            price: null,
+            ingredients: [
+                `Qualquer Hambúrguer + R$ 7.00 = Burguer + Batata + Refri`
+            ],
+            discount: 0,
+            main: false
+        }
+    ],
     portions: [
         {
             name: `Batata Palito`,

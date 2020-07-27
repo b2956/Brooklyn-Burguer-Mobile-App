@@ -44,7 +44,7 @@ export type NumericInputProps = {
 export type MenuItemProps = {
   imgFile: any,
   name: string,
-  price: string,
+  price: string | null,
   discount: number,
   ingredients: string[]
 }
