@@ -21,9 +21,24 @@ const MainItem = (props: MainItemParams)  => {
 
     return (
         <View style={ styles.container }>
-            <Image source={require('../assets/images/hamburguer-Brooklyn.jpeg')} style={styles.img} />
             <Text style={styles.title}>{props.name}</Text>
+            <View style={styles.imgContainer}>
+                <Image source={require('../assets/images/hamburguer-Brooklyn.jpeg')} style={styles.img} />
+            </View>
             {/* <Text style={styles.discount}>{props.discount}% OFF</Text>  */}
+            <Text style={styles.ingredients}>
+                {
+                    props.ingredients.reduce((acc: string, item: string, index: number): any =>  {
+                        if(acc.length < 50) {
+                            return `${acc} + ${item}`
+                        } else if(acc.length >= 50 && (index + 1) !== props.ingredients.length) {
+                            return `${acc}`
+                        } else if ((index + 1) === props.ingredients.length) {
+                            return `${acc} ...`
+                        }
+                    })
+                }
+            </Text>
             <View style={styles.price}>
                 <Text style={{color: '#999'}}>De: </Text>
                 <Text style={styles.oldPrice}>R${props.price}</Text>
@@ -46,10 +61,9 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
         borderRadius: 10,
-        height: 300,
+        height: 320,
         width: 200,
         marginHorizontal: 10,
-        marginVertical: 10,
         shadowColor: '#00ADEF',
         shadowOffset: {
             width: 0,
@@ -63,25 +77,28 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center'
     },
+    imgContainer: {
+        width: 180,
+        height: 130,
+        overflow: 'hidden',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+        margin: 10
+    },
     img: {
         width: 180,
-        height: 180,
-        margin: 10,
-        borderRadius: 10
+        height: 180
     },
-    titleContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },
-    discount: {
-        fontSize: 16,
-        fontWeight: '700',
-        color: 'red'
+    ingredients: {
+        color: '#999',
+        width: '80%',
+        textAlign: 'justify'
     },
     title: {
         fontSize: 16,
         fontWeight: '700',
+        marginTop: 10
     },
     price: {
         display: 'flex',

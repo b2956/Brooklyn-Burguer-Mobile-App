@@ -33,10 +33,18 @@ export type MainItemParams = {
 export type CustomImageParams = {
   imageName: any,
   style: Object
-}
+};
 
 export type NumericInputProps = {
   addQuantityOnPress: any,
   subtractQuantityOnPress: any,
   quantity: number
+};
+
+export type MenuItemProps = {
+  imgUrl: string,
+  name: string,
+  price: string,
+  discount: number,
+  ingredients: string[]
 }

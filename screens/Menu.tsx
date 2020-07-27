@@ -31,6 +31,7 @@ export default function TabOneScreen() {
       <Text style={styles.title}>Porções</Text>
       <Text style={styles.title}>Molhos</Text>
       <Text style={styles.title}>Bebidas</Text>
+      <Text style={styles.title}>Combos</Text>
     </ScrollView>
   );
 }
@@ -49,6 +50,6 @@ const styles = StyleSheet.create({
     color: '#333'
   },
   mainItemsContainer: {
-    height: 330
+    height: 340
   }
 });
