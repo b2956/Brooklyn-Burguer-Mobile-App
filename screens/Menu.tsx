@@ -4,34 +4,80 @@ import { Text, View } from '../components/Themed';
 
 
 import MainItem from '../components/MainItem';
-
+import MenuItem from '../components/MenuItem';
 
 import menu from '../assets/data/menu';
-import destaques from '../assets/data/destaques';
 
 export default function TabOneScreen() {
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Destaques & Promoções</Text>
       <ScrollView horizontal={true} style={styles.mainItemsContainer} showsHorizontalScrollIndicator={false} >
-        {destaques.map((item, i) => {
+        {menu.hamburgers.filter(item => {
+          if(item.main) {
+            return item
+          } 
+        }).map((item, i) => {
           return (
             <MainItem 
               name={item.name}
               price={item.price}
               discount={item.discount}
               ingredients={item.ingredients}
-              imgUrl={item.imgUrl}
+              imgFile={item.imgFile}
               key={i}
             />
           )
         })}
       </ScrollView>
       <Text style={styles.title}>Hamburguers</Text>
-      <Text style={styles.title}>Porções</Text>
-      <Text style={styles.title}>Molhos</Text>
-      <Text style={styles.title}>Bebidas</Text>
+        {
+          menu.hamburgers.map((item, index) => {
+            return (
+              < MenuItem 
+                name={item.name}
+                ingredients={item.ingredients}
+                discount={item.discount}
+                imgFile={item.imgFile}
+                price={item.price}
+                key={index}
+              />
+            )
+          })
+        }
       <Text style={styles.title}>Combos</Text>
+
+      <Text style={styles.title}>Porções</Text>
+        {
+          menu.portions.map((item, index) => {
+            return (
+              <MenuItem
+                name={item.name}
+                price={item.price}
+                imgFile={item.imgFile}
+                ingredients={item.ingredients}
+                discount={item.discount}
+                key={index}
+              />
+            )
+          })
+        }
+      <Text style={styles.title}>Molhos</Text>
+        {
+          menu.sauces.map((item, index) => {
+            return (
+              < MenuItem 
+                name={item.name}
+                ingredients={item.ingredients}
+                discount={item.discount}
+                imgFile={item.imgFile}
+                price={item.price}
+                key={index}
+              />
+            )
+          })
+        }
+      <Text style={styles.title}>Bebidas</Text>
     </ScrollView>
   );
 }
@@ -51,5 +97,9 @@ const styles = StyleSheet.create({
   },
   mainItemsContainer: {
     height: 340
-  }
+  },
+  img: {
+    width: 180,
+    height: 180
+  },
 });

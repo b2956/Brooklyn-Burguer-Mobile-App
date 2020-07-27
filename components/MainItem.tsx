@@ -23,7 +23,7 @@ const MainItem = (props: MainItemParams)  => {
         <View style={ styles.container }>
             <Text style={styles.title}>{props.name}</Text>
             <View style={styles.imgContainer}>
-                <Image source={require('../assets/images/hamburguer-Brooklyn.jpeg')} style={styles.img} />
+                <Image source={props.imgFile} style={styles.img} />
             </View>
             {/* <Text style={styles.discount}>{props.discount}% OFF</Text>  */}
             <Text style={styles.ingredients}>
@@ -122,7 +122,8 @@ const styles = StyleSheet.create({
         flex: 1
     },
     button: {
-        backgroundColor: '#00ADEF',
+        backgroundColor: '#008bc1',
+        // backgroundColor: '#007dad',
         height: 30,
         width: 80,
         borderRadius: 5,
@@ -131,7 +132,8 @@ const styles = StyleSheet.create({
         marginLeft: 5
     },
     buttonText: {
-        color: '#fff'
+        color: '#fff',
+        fontWeight: '700'
     }
 })
 

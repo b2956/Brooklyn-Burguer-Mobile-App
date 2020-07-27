@@ -27,12 +27,12 @@ export type MainItemParams = {
   price: string,
   ingredients: string[],
   discount: number,
-  imgUrl: string
+  imgFile: any
 };
 
 export type CustomImageParams = {
-  imageName: any,
-  style: Object
+  imageSource: any,
+  styles: Object
 };
 
 export type NumericInputProps = {
@@ -42,7 +42,7 @@ export type NumericInputProps = {
 };
 
 export type MenuItemProps = {
-  imgUrl: string,
+  imgFile: any,
   name: string,
   price: string,
   discount: number,
