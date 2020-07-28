@@ -91,6 +91,20 @@ export default function TabOneScreen() {
           })
         }
       <Text style={styles.title}>Bebidas</Text>
+        {
+          menu.drinks.map((item, index) => {
+            return (
+              < MenuItem 
+                name={item.name}
+                ingredients={item.ingredients}
+                discount={item.discount}
+                imgFile={item.imgFile}
+                price={item.price}
+                key={index}
+              />
+            )
+          })
+        }
     </ScrollView>
   );
 }

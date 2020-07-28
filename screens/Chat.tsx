@@ -56,7 +56,11 @@ const Chat = () => {
           }
         </ScrollView>
         <View style={styles.inputContainer}>
-          <TextInput style={styles.textInput} />
+          <TextInput 
+            style={styles.textInput} 
+            multiline={true}
+            
+          />
           <TouchableOpacity style={styles.button}>
             <MaterialIcons name="send" size={25} color="#fff" />
           </TouchableOpacity>
@@ -95,7 +99,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
       borderRadius: 5,
       paddingVertical: 0,
-      height: 30,
+      minHeight: 30,
       paddingHorizontal: 10,
       width: '85%',
       borderWidth: 1,

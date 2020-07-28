@@ -250,8 +250,147 @@ const menu = {
             main: false
         }
     ],
-    bebidas: [
-
+    drinks: [
+        {
+            name: `Coca-Cola`,
+            price: '5.50',
+            discount: 0,
+            main: false,
+            ingredients: [
+                `350ml`
+            ],
+            imgFile: require('../images/coca-cola.webp'),
+        },
+        {
+            name: `Dell Valle Uva`,
+            price: '5.50',
+            discount: 0,
+            main: false,
+            ingredients: [
+                `290ml`
+            ],
+            imgFile: require('../images/del-valle.webp'),
+        },
+        {
+            name: `Água com Gás`,
+            price: '3.50',
+            discount: 0,
+            main: false,
+            ingredients: [
+                `500ml`
+            ],
+            imgFile: require('../images/agua-gas.webp'),
+        },
+        {
+            name: `Água sem Gás`,
+            price: '3.50',
+            discount: 0,
+            main: false,
+            ingredients: [
+                `500ml`
+            ],
+            imgFile: require('../images/agua-sem-gas.webp'),
+        },
+        {
+            name: `Sprite Lemon Fresh Garrafinha`,
+            price: '5.50',
+            discount: 0,
+            main: false,
+            ingredients: [
+                `510ml`
+            ],
+            imgFile: require('../images/sprite-lemon-fresh.webp'),
+        },
+        {
+            name: `Fanta Uva`,
+            price: '5.50',
+            discount: 0,
+            main: false,
+            ingredients: [
+                `350ml`
+            ],
+            imgFile: require('../images/fanta-uva.webp'),
+        },
+        {
+            name: `Fanta Guaraná`,
+            price: '5.50',
+            discount: 0,
+            main: false,
+            ingredients: [
+                `350ml`
+            ],
+            imgFile: require('../images/fanta-guarana.webp'),
+        },
+        {
+            name: `Fanta Laranja`,
+            price: '5.50',
+            discount: 0,
+            main: false,
+            ingredients: [
+                `350ml`
+            ],
+            imgFile: require('../images/fanta-laranja.webp'),
+        },
+        {
+            name: `Sprite`,
+            price: '5.50',
+            discount: 0,
+            main: false,
+            ingredients: [
+                `350ml`
+            ],
+            imgFile: require('../images/sprite.webp'),
+        },
+        {
+            name: `Coca-Cola Zero`,
+            price: '5.50',
+            discount: 0,
+            main: false,
+            ingredients: [
+                `350ml`
+            ],
+            imgFile: require('../images/coca-cola-zero.webp'),
+        },
+        {
+            name: `Schweppes Tônica`,
+            price: '5.50',
+            discount: 0,
+            main: false,
+            ingredients: [
+                `350ml`
+            ],
+            imgFile: require('../images/schweppes.webp'),
+        },
+        {
+            name: `Schweppes Citrus`,
+            price: '5.50',
+            discount: 0,
+            main: false,
+            ingredients: [
+                `350ml`
+            ],
+            imgFile: require('../images/schweppes-citrus.webp'),
+        },
+        {
+            name: `Mate Leão Limão`,
+            price: '5.50',
+            discount: 0,
+            main: false,
+            ingredients: [
+                `300ml`
+            ],
+            imgFile: require('../images/mate-leao-limao.webp'),
+        },
+        {
+            name: `Mate Leão`,
+            price: '5.50',
+            discount: 0,
+            main: false,
+            ingredients: [
+                `300ml`
+            ],
+            imgFile: require('../images/mate-leao.webp'),
+        },
     ]
 };
 
