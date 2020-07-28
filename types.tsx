@@ -22,7 +22,7 @@ export type ChatParamList = {
   ChatScreen: undefined;
 };
 
-export type MainItemParams = {
+export type MainItemProps = {
   name: string,
   price: string,
   ingredients: string[],
@@ -47,4 +47,22 @@ export type MenuItemProps = {
   price: string | null,
   discount: number,
   ingredients: string[]
+}
+
+export type CartItemProps = {
+  name: string,
+  quantity: number,
+  price: number,
+  ingredients: string[],
+  discount: number
+}
+
+export type CartParamList = {
+  CartScreen: undefined
+}
+
+export type MessageProps = {
+  userId: string,
+  timeStamp: string,
+  text: string
 }

@@ -109,10 +109,7 @@ const styles = StyleSheet.create({
     color: '#333'
   },
   mainItemsContainer: {
-    height: 340
-  },
-  img: {
-    width: 180,
-    height: 180
-  },
+    height: 340,
+    marginLeft: 10
+  }
 });

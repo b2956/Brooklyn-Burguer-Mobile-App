@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet  } from 'react-native';
 
-import { MainItemParams } from '../types';
+import { MainItemProps } from '../types';
 
 // import CustomImage from './CustomImage';
 import NumericInput from './NumericInput';
 
-const MainItem = (props: MainItemParams)  => {
+const MainItem = (props: MainItemProps)  => {
     const [quantity, setQuantity] = useState(1);
 
     const addQuantityHandlerOnPress = () => {
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     },
     ingredients: {
         color: '#999',
-        width: '80%',
+        width: 180,
         textAlign: 'justify'
     },
     title: {
@@ -102,8 +102,7 @@ const styles = StyleSheet.create({
     },
     price: {
         display: 'flex',
-        width: '100%',
-        paddingHorizontal: 20,
+        width: 180,
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
@@ -122,14 +121,21 @@ const styles = StyleSheet.create({
         flex: 1
     },
     button: {
-        backgroundColor: '#008bc1',
-        // backgroundColor: '#007dad',
+        backgroundColor: '#008bc1', 
         height: 30,
         width: 80,
         borderRadius: 5,
         alignItems: "center",
         justifyContent: 'center',
-        marginLeft: 5
+        marginLeft: 5,
+        shadowColor: '#00ADEF',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 2,
+        elevation: 1,
     },
     buttonText: {
         color: '#fff',

@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
         width: '95%',
         height: 150,
         marginVertical: 2.5,
+        paddingBottom: 10,
         borderRadius: 5,
         backgroundColor: '#fff',
         alignSelf: 'center',
@@ -73,14 +74,14 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
     imgContainer: {
-        // flex: 2,
         width: 110,
         height: 110,
         overflow: 'hidden',
         marginLeft: 10,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 10
+        borderRadius: 10,
+        marginTop: 10
     },
     img: {
         width: 130,
@@ -89,7 +90,8 @@ const styles = StyleSheet.create({
     textContainer: {
         marginHorizontal: 10,
         flex: 1,
-        height: '100%'
+        height: '100%',
+        justifyContent: 'space-between'
     },
     title: {
         fontSize: 16,
@@ -102,14 +104,12 @@ const styles = StyleSheet.create({
     },
     actionsContainer: {
         flexDirection: 'row',
-        flex: 1,
-        alignItems: 'center',
+        alignItems: 'flex-end',
         justifyContent: 'space-between'
     },
     priceWithDiscount: {
-        flexDirection: 'column',
-        flexWrap: 'nowrap',
-        flex: 1
+        flex: 1,
+        justifyContent: 'flex-start'
     },
     price: {
         fontWeight: '700',
@@ -118,7 +118,6 @@ const styles = StyleSheet.create({
     oldPrice: {
         color: '#999',
         textDecorationLine: 'line-through',
-        marginRight: 5
     },
     button: {
         backgroundColor: '#008bc1',
@@ -127,11 +126,19 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         alignItems: "center",
         justifyContent: 'center',
-        marginLeft: 5
+        marginLeft: 5,
+        shadowColor: '#00ADEF',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 2,
+        elevation: 1,
     },
     buttonText: {
         color: '#fff',
-        fontWeight: '700',
+        fontWeight: '700'
     }
 })
 

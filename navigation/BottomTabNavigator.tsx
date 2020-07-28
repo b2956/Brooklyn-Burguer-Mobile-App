@@ -8,8 +8,8 @@ import useColorScheme from '../hooks/useColorScheme';
 import Menu from '../screens/Menu';
 import Pedidos from '../screens/Pedidos';
 import Chat from '../screens/Chat';
-import Carrinho from '../screens/Carrinho';
-import { BottomTabParamList, MenuParamList, PedidosParamList, ChatParamList } from '../types';
+import Cart from '../screens/Cart';
+import { BottomTabParamList, MenuParamList, PedidosParamList, ChatParamList, CartParamList } from '../types';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -21,6 +21,7 @@ export default function BottomTabNavigator() {
       initialRouteName="Menu"
       tabBarOptions={{ 
         activeTintColor: Colors[colorScheme].tint,
+        keyboardHidesTabBar: true
       }}>
       <BottomTab.Screen
         name="Menu"
@@ -45,7 +46,7 @@ export default function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Carrinho"
-        component={Carrinho}
+        component={Cart}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="md-cart" color={color} />,
         }}
@@ -100,4 +101,16 @@ function ChatNavigator() {
       options={{ headerTitle: 'Chat'}}
     />
   </ChatStack.Navigator>
+}
+
+const CartStack = createStackNavigator<CartParamList>();
+
+function CartNavigation() {
+  <CartStack.Navigator>
+    <CartStack.Screen
+      name="CartScreen"
+      component={Cart}
+      options={{ headerTitle: 'Carrinho'}}
+    />
+  </CartStack.Navigator>
 }
