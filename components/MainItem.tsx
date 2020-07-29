@@ -3,18 +3,17 @@ import { View, Text, Image, TouchableOpacity, StyleSheet  } from 'react-native';
 
 import { MainItemProps } from '../types';
 
-// import CustomImage from './CustomImage';
 import NumericInput from './NumericInput';
 
 const MainItem = (props: MainItemProps)  => {
-    const [quantity, setQuantity] = useState(1);
+    const [quantity, setQuantity] = useState(0);
 
     const addQuantityHandlerOnPress = () => {
         setQuantity(quantity + 1);
     }
 
     const subtractQuantityHandlerOnPress = () => {
-        if (quantity > 1) {
+        if (quantity > 0) {
             setQuantity(quantity - 1);
         }
     }
@@ -25,7 +24,6 @@ const MainItem = (props: MainItemProps)  => {
             <View style={styles.imgContainer}>
                 <Image source={props.imgFile} style={styles.img} />
             </View>
-            {/* <Text style={styles.discount}>{props.discount}% OFF</Text>  */}
             <Text style={styles.ingredients}>
                 {
                     props.ingredients.reduce((acc: string, item: string, index: number): any =>  {

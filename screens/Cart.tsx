@@ -1,11 +1,14 @@
-import React from  'react';
+import React, { useContext } from  'react';
 import {Text, ScrollView, View, StyleSheet, TouchableOpacity} from 'react-native';
 
 import CartItem from '../components/CartItem';
 
-import cart from '../assets/data/cart';
+// import cart from '../assets/data/cart';
+import CartContext from '../context/CartContext';
 
 const Cart = () => {
+    const cart = useContext(CartContext);
+
     return (
         <ScrollView 
             style={styles.container}
@@ -15,7 +18,7 @@ const Cart = () => {
         >
             <Text style={styles.title} >Carrinho</Text>
             {
-                cart.map((item, index) => {
+                cart.cartItems.map((item, index) => {
                     return (
                         < CartItem 
                             name={item.name}
@@ -32,7 +35,7 @@ const Cart = () => {
                 <Text style={styles.total}>Total da Compra:</Text>
                 <Text style={styles.totalTitle}>
                     R$ {
-                        cart.reduce((acc, item): any => {
+                        cart.cartItems.reduce((acc, item): any => {
                             return (((+item.price - (+item.price * item.discount / 100)) * item.quantity) + +acc).toFixed(2)
                         }, 0)
                     }

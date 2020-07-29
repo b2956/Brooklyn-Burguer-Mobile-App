@@ -1,3 +1,5 @@
 import React from 'react';
 
-export default React.createContext({});
+import { CartState } from '../types';
+
+export default React.createContext({} as CartState);

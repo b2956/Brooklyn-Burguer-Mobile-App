@@ -66,3 +66,24 @@ export type MessageProps = {
   timeStamp: string,
   text: string
 }
+
+export type CartState = {
+  cartItems: CartItemProps[],
+  cartActions: cartActionsTypes
+}
+
+export type ReducerAction = {
+  type: string,
+  payload: {
+    item: CartItemProps,
+    subtract?: number,
+    add?: number
+  }
+}
+
+export type cartActionsTypes = {
+  addProduct: Function,
+  addQuantity: Function,
+  subtractQuantity: Function,
+  removeProduct: Function
+}
