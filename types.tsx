@@ -76,7 +76,6 @@ export type ReducerAction = {
   type: string,
   payload: {
     item: CartItemProps,
-    subtract?: number,
     add?: number
   }
 }
@@ -86,4 +85,9 @@ export type cartActionsTypes = {
   addQuantity: Function,
   subtractQuantity: Function,
   removeProduct: Function
+}
+
+export type ItemModalProps = {
+  item: MenuItemProps,
+  modalVisibility: boolean 
 }

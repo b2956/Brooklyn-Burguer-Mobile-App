@@ -1,11 +1,31 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { CartItemProps } from '../types';
 
 import NumericInput from './NumericInput';
 
+import CartContext from '../context/CartContext';
+
 const CartItem = (props: CartItemProps) => {
+
+    const { cartActions, cartItems } = useContext(CartContext);
+    const product: CartItemProps = {
+        ...props,
+        quantity: 1
+    }
+
+    const addProduct = () => {
+        cartActions.addQuantity(product);
+    }
+
+    const subtractProduct = () => {
+        cartActions.subtractQuantity(product);
+    }
+
+    const removeProduct = () => {
+        cartActions.removeProduct(product);
+    }
 
     return (
         <View style={styles.container}>
@@ -33,8 +53,13 @@ const CartItem = (props: CartItemProps) => {
                 <View style={styles.buttonsContainer} >
                     <NumericInput 
                         quantity={props.quantity}
+                        addQuantityOnPress={addProduct}
+                        subtractQuantityOnPress={subtractProduct}
                     />
-                    <TouchableOpacity style={styles.button} >
+                    <TouchableOpacity 
+                        style={styles.button}
+                        onPress={removeProduct}
+                    >
                         <Text style={styles.buttonText}>Remover</Text>
                     </TouchableOpacity>
                 </View>
@@ -107,6 +132,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowRadius: 2,
         elevation: 1,
+        marginTop: 10
     },
     buttonText: {
         color: '#fff',

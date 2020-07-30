@@ -7,7 +7,18 @@ import CartItem from '../components/CartItem';
 import CartContext from '../context/CartContext';
 
 const Cart = () => {
+    let body;
+
     const cart = useContext(CartContext);
+
+    const total = 
+    <Text style={styles.totalTitle}>
+        R$ {
+            cart.cartItems.reduce((acc, item): any => {
+                return (((+item.price - (+item.price * item.discount / 100)) * item.quantity) + +acc).toFixed(2)
+            }, 0)
+        }
+    </Text>
 
     return (
         <ScrollView 
@@ -31,21 +42,32 @@ const Cart = () => {
                     )
                 })
             }
-            <View style={styles.totalContainer} >
-                <Text style={styles.total}>Total da Compra:</Text>
-                <Text style={styles.totalTitle}>
-                    R$ {
-                        cart.cartItems.reduce((acc, item): any => {
-                            return (((+item.price - (+item.price * item.discount / 100)) * item.quantity) + +acc).toFixed(2)
-                        }, 0)
-                    }
-                </Text>
-            </View>
-            <TouchableOpacity style={styles.buyButton} >
-                <Text style={styles.buyButtonText} >
-                    Pedir Já!
-                </Text>
-            </TouchableOpacity>
+            {cart.cartItems.length > 0 &&
+                <View style={{
+                    alignItems: 'center'
+                }}>
+                    <View style={styles.totalContainer} >
+                        <Text style={styles.total}>
+                            Total da Compra:
+                        </Text>
+                        {total}
+                    </View>
+                    <TouchableOpacity style={styles.buyButton} >
+                        <Text style={styles.buyButtonText} >
+                            Pedir Já!
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            }
+
+            {cart.cartItems.length === 0 &&
+                <View>
+                    <Text style={styles.total}>
+                        Nenhum item no carrinho...
+                    </Text>
+                </View>
+            }
+            
         </ScrollView>
     )
 }

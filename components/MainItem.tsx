@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet  } from 'react-native';
 
-import { MainItemProps } from '../types';
+import { MainItemProps, CartItemProps } from '../types';
+
+import CartContext from '../context/CartContext';
 
 import NumericInput from './NumericInput';
 
@@ -16,6 +18,34 @@ const MainItem = (props: MainItemProps)  => {
         if (quantity > 0) {
             setQuantity(quantity - 1);
         }
+    }
+
+    const { cartActions, cartItems } = useContext(CartContext);
+
+    const product: CartItemProps = {
+        discount: props.discount,
+        ingredients: props.ingredients,
+        name: props.name,
+        price: +props.price,
+        quantity
+    }
+
+    const addProduct = () => {
+        if(quantity === 0) {
+            return
+        }
+        
+        const itemIndex = cartItems.findIndex(item => {
+            return item.name === props.name
+        });
+
+        if(itemIndex > -1) {
+            return cartActions.addQuantity(product);
+        }
+
+        cartActions.addProduct(product);
+
+        return setQuantity(0);
     }
 
     return (
@@ -49,7 +79,12 @@ const MainItem = (props: MainItemProps)  => {
                     subtractQuantityOnPress={subtractQuantityHandlerOnPress}
                     quantity={quantity}
                 />
-                <TouchableOpacity style={styles.button}><Text style={styles.buttonText}>Adicionar</Text></TouchableOpacity>
+                <TouchableOpacity 
+                    style={styles.button}
+                    onPress={addProduct}
+                >
+                    <Text style={styles.buttonText}>Adicionar</Text>
+                </TouchableOpacity>
             </View>
         </View>
     )

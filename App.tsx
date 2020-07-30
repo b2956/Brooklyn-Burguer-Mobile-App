@@ -75,7 +75,7 @@ export default function App() {
 
   const initialCartState = {
     cartItems : [],
-    cartActions: {
+    cartActions:  {
       addProduct: addNewProductToCart,
       addQuantity: addCartProductQuantity,
       subtractQuantity: subtractCartProductQuantity,
@@ -83,7 +83,7 @@ export default function App() {
     }
   }
 
-  const [cart, dispatch] = useReducer(reducer, initialCartState);
+  const [cart, dispatch] = useReducer(reducer, initialCartState, );
 
   function addNewProductToCart (product: CartItemProps):any {
     dispatch({
@@ -129,7 +129,10 @@ export default function App() {
     return (
       <SafeAreaProvider>
         <TopBar/>
-        <CartContext.Provider value={cart} >
+        <CartContext.Provider value={{
+          cartActions: cart.cartActions,
+          cartItems: cart.cartItems
+        }} >
           <Navigation 
             colorScheme={colorScheme}
           />
