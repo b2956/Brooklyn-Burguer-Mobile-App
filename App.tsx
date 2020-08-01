@@ -33,7 +33,9 @@ const reducer = (state: CartState, action: ReducerAction) => {
         return item.name === action.payload.item.name
       })
 
-      newState.cartItems[itemIndex].quantity = newState.cartItems[itemIndex].quantity + action.payload.add
+      if(action.payload.add) {
+        newState.cartItems[itemIndex].quantity = newState.cartItems[itemIndex].quantity + action.payload.add
+      }   
 
       return newState
     case 'SUBTRACT_PRODUCT_QUANTITY': 

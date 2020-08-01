@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet  } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, TouchableWithoutFeedback  } from 'react-native';
 
 import { MainItemProps, CartItemProps } from '../types';
 
@@ -40,6 +40,7 @@ const MainItem = (props: MainItemProps)  => {
         });
 
         if(itemIndex > -1) {
+            setQuantity(0);
             return cartActions.addQuantity(product);
         }
 
@@ -48,25 +49,43 @@ const MainItem = (props: MainItemProps)  => {
         return setQuantity(0);
     }
 
+    const showModal = () => {
+        props.showModal({
+            ...product,
+            imgFile: props.imgFile
+        });
+    }
+
+    const hideModal = () => {
+        props.hideModal();
+    }
+
     return (
         <View style={ styles.container }>
             <Text style={styles.title}>{props.name}</Text>
-            <View style={styles.imgContainer}>
-                <Image source={props.imgFile} style={styles.img} />
-            </View>
-            <Text style={styles.ingredients}>
-                {
-                    props.ingredients.reduce((acc: string, item: string, index: number): any =>  {
-                        if(acc.length < 50) {
-                            return `${acc} + ${item}`
-                        } else if(acc.length >= 50 && (index + 1) !== props.ingredients.length) {
-                            return `${acc}`
-                        } else if ((index + 1) === props.ingredients.length) {
-                            return `${acc} ...`
-                        }
-                    })
-                }
-            </Text>
+            <TouchableWithoutFeedback onPress={showModal}>
+                <View style={styles.imgContainer}>
+                    <Image 
+                        source={props.imgFile} 
+                        style={styles.img}
+                    />
+                </View>
+            </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={showModal}>
+                <Text style={styles.ingredients}>
+                    {
+                        props.ingredients.reduce((acc: string, item: string, index: number): any =>  {
+                            if(acc.length < 50) {
+                                return `${acc} + ${item}`
+                            } else if(acc.length >= 50 && (index + 1) !== props.ingredients.length) {
+                                return `${acc}`
+                            } else if ((index + 1) === props.ingredients.length) {
+                                return `${acc} ...`
+                            }
+                        })
+                    }
+                </Text>
+            </TouchableWithoutFeedback>
             <View style={styles.price}>
                 <Text style={{color: '#999'}}>De: </Text>
                 <Text style={styles.oldPrice}>R${props.price}</Text>

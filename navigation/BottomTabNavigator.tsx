@@ -6,10 +6,10 @@ import * as React from 'react';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import Menu from '../screens/Menu';
-import Pedidos from '../screens/Pedidos';
+import Orders from '../screens/Orders';
 import Chat from '../screens/Chat';
 import Cart from '../screens/Cart';
-import { BottomTabParamList, MenuParamList, PedidosParamList, ChatParamList, CartParamList } from '../types';
+import { BottomTabParamList, MenuParamList, OrdersParamList, ChatParamList, CartParamList } from '../types';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -31,8 +31,8 @@ export default function BottomTabNavigator() {
         }}
       />
       <BottomTab.Screen
-        name="Pedidos"
-        component={Pedidos}
+        name="Orders"
+        component={Orders}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="ios-clipboard" color={color} />,
         }}
@@ -77,17 +77,17 @@ function MenuNavigator() {
   );
 }
 
-const PedidosStack = createStackNavigator<PedidosParamList>();
+const OrdersStack = createStackNavigator<OrdersParamList>();
 
-function PedidosNavigator() {
+function OrdersNavigator() {
   return (
-    <PedidosStack.Navigator>
-      <PedidosStack.Screen
-        name="PedidosScreen"
-        component={Pedidos}
-        options={{ headerTitle: 'Pedidos' }}
+    <OrdersStack.Navigator>
+      <OrdersStack.Screen
+        name="OrdersScreen"
+        component={Orders}
+        options={{ headerTitle: 'Orders' }}
       />
-    </PedidosStack.Navigator>
+    </OrdersStack.Navigator>
   );
 }
 

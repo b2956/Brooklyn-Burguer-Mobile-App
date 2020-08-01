@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Image, Text, TouchableOpacity, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 
 import { MenuItemProps } from '../types';
 
@@ -20,30 +20,57 @@ const MenuItem = (props: MenuItemProps) => {
         }
     }
 
+    const showModal = () => {
+        props.showModal({
+            name: props.name,
+            price: props.price,
+            discount: props.discount,
+            imgFile: props.imgFile,
+            ingredients: props.ingredients
+        });
+    }
+
+    const hideModal = () => {
+        props.hideModal();
+    }
+
 
     return (
         <View style={styles.container}>
-            <View style={styles.imgContainer}>
-                <Image source={props.imgFile} style={styles.img}/>
-            </View>
+            <TouchableWithoutFeedback
+                onPress={showModal}
+            >
+                <View style={styles.imgContainer}>
+                    <Image source={props.imgFile} style={styles.img}/>
+                </View>
+            </TouchableWithoutFeedback>
             <View style={styles.textContainer}>
                 <Text style={styles.title}>{props.name}</Text>
-                <Text style={styles.ingredients}>
-                {
-                    props.ingredients.reduce((acc: string, item: string, index: number): any =>  {
-                        if(acc.length < 70) {
-                            return `${acc} + ${item}`
-                        } else if(acc.length >= 70 && (index + 1) !== props.ingredients.length) {
-                            return `${acc}`
-                        } else if ((index + 1) === props.ingredients.length) {
-                            return `${acc} ...`
-                        }
-                    })
-                }
+                
+                
+                <TouchableWithoutFeedback
+                    onPress={showModal}
+                >
+                    <Text style={styles.ingredients}>
+                    {
+                        props.ingredients.reduce((acc: string, item: string, index: number): any =>  {
+                            if(acc.length < 70) {
+                                return `${acc} + ${item}`
+                            } else if(acc.length >= 70 && (index + 1) !== props.ingredients.length) {
+                                return `${acc}`
+                            } else if ((index + 1) === props.ingredients.length) {
+                                return `${acc} ...`
+                            }
+                        })
+                    }
                 </Text>
+                </TouchableWithoutFeedback>
                 <View style={styles.actionsContainer}>
                     {price}         
-                    <TouchableOpacity style={styles.button}>
+                    <TouchableOpacity 
+                        style={styles.button}
+                        onPress={showModal}
+                    >
                         <Text style={styles.buttonText}>Ver Detalhes</Text>
                     </TouchableOpacity>
                 </View>

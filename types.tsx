@@ -5,7 +5,7 @@ export type RootStackParamList = {
 
 export type BottomTabParamList = {
   Menu: undefined;
-  Pedidos: undefined;
+  Orders: undefined;
   Chat: undefined;
   Carrinho: undefined;
 };
@@ -14,8 +14,8 @@ export type MenuParamList = {
   MenuScreen: undefined;
 };
 
-export type PedidosParamList = {
-  PedidosScreen: undefined;
+export type OrdersParamList = {
+  OrdersScreen: undefined;
 };
 
 export type ChatParamList = {
@@ -27,7 +27,9 @@ export type MainItemProps = {
   price: string,
   ingredients: string[],
   discount: number,
-  imgFile: any
+  imgFile: any,
+  showModal: any,
+  hideModal: any
 };
 
 export type CustomImageParams = {
@@ -46,7 +48,9 @@ export type MenuItemProps = {
   name: string,
   price: string | null,
   discount: number,
-  ingredients: string[]
+  ingredients: string[],
+  showModal: any,
+  hideModal: any
 }
 
 export type CartItemProps = {
@@ -87,7 +91,16 @@ export type cartActionsTypes = {
   removeProduct: Function
 }
 
+export type ModalItemProps = {
+  imgFile: any,
+  name: string,
+  price: string | null,
+  discount: number,
+  ingredients: string[]
+}
+
 export type ItemModalProps = {
-  item: MenuItemProps,
-  modalVisibility: boolean 
+  item: ModalItemProps,
+  modalVisibility: boolean,
+  hideModal: any
 }
