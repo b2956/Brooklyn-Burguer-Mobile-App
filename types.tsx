@@ -104,3 +104,8 @@ export type ItemModalProps = {
   modalVisibility: boolean,
   hideModal: any
 }
+
+export type OverlayProps = {
+  modalVisibility: boolean,
+  hideModal: any
+}

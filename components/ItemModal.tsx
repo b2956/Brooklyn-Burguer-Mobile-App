@@ -156,11 +156,11 @@ const styles = StyleSheet.create({
         shadowColor: '#00ADEF',
         shadowOffset: {
             width: 0,
-            height: 2,
+            height: 5,
         },
         shadowOpacity: 0.7,
         shadowRadius: 5.46,
-        elevation: 4,
+        elevation: 9,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',

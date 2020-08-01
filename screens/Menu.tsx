@@ -7,6 +7,7 @@ import { ModalItemProps } from '../types';
 import MainItem from '../components/MainItem';
 import MenuItem from '../components/MenuItem';
 import ItemModal from '../components/ItemModal';
+import Overlay from '../components/Overlay';
 
 import menu from '../assets/data/menu';
 
@@ -27,16 +28,16 @@ export default function TabOneScreen() {
   return (
     <View style={styles.outsideContainer}>
       { modalVisibility &&
-        <ItemModal
-          item={modalItem}
+        <Overlay 
           modalVisibility={modalVisibility}
           hideModal={hideModalHandler}
         />
       }
       { modalVisibility &&
-        <View 
-          style={styles.overlay}
-          onTouchStart={hideModalHandler}
+        <ItemModal
+          item={modalItem}
+          modalVisibility={modalVisibility}
+          hideModal={hideModalHandler}
         />
       }
       <ScrollView style={styles.container}>
