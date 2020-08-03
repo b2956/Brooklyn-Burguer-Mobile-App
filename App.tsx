@@ -1,13 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useReducer } from 'react';
+import React, { useReducer, useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import CartContext from './context/CartContext';
+import OrdersContext from './context/OrdersContext';
 
 import TopBar from './components/TopBar';
 import Navigation from './navigation';
 
-import { CartState, ReducerAction, CartItemProps } from './types';
+import { CartState, ReducerAction, CartItemProps, OrderProps, CartActionPayload } from './types';
 
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
@@ -66,6 +67,13 @@ const reducer = (state: CartState, action: ReducerAction) => {
       newState.cartItems.splice(itemIndex, 1);
 
       return newState
+    case 'EMPTY_CART': 
+      newState = {
+        ...state,
+        cartItems: []
+      }
+
+      return newState;
     default: 
       return state
   }  
@@ -81,7 +89,8 @@ export default function App() {
       addProduct: addNewProductToCart,
       addQuantity: addCartProductQuantity,
       subtractQuantity: subtractCartProductQuantity,
-      removeProduct: removeProductFromCart
+      removeProduct: removeProductFromCart,
+      emptyCart: emptyCart
     }
   }
 
@@ -125,6 +134,21 @@ export default function App() {
     })
   }
 
+  function emptyCart () {
+    dispatch({
+      type: 'EMPTY_CART',
+      payload: {} as CartActionPayload
+    })
+  }
+
+  const [activeOrder, setActiveOrder] = useState({} as OrderProps)
+  
+  const addOrder = (order: OrderProps) => {
+    setActiveOrder({
+      ...order
+    })
+  }
+
   if (!isLoadingComplete) {
     return null;
   } else {
@@ -135,9 +159,14 @@ export default function App() {
           cartActions: cart.cartActions,
           cartItems: cart.cartItems
         }} >
-          <Navigation 
-            colorScheme={colorScheme}
-          />
+          <OrdersContext.Provider value={{
+            activeOrder: activeOrder,
+            addOrder: addOrder
+          }} >
+            <Navigation 
+              colorScheme={colorScheme}
+            />
+          </OrdersContext.Provider>
         </CartContext.Provider>
         <StatusBar/>
       </SafeAreaProvider>

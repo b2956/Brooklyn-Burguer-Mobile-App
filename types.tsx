@@ -5,7 +5,7 @@ export type RootStackParamList = {
 
 export type BottomTabParamList = {
   Menu: undefined;
-  Orders: undefined;
+  Pedidos: undefined;
   Chat: undefined;
   Carrinho: undefined;
 };
@@ -76,19 +76,22 @@ export type CartState = {
   cartActions: cartActionsTypes
 }
 
+export type CartActionPayload = {
+  item: CartItemProps,
+  add?: number
+}
+
 export type ReducerAction = {
   type: string,
-  payload: {
-    item: CartItemProps,
-    add?: number
-  }
+  payload: CartActionPayload
 }
 
 export type cartActionsTypes = {
   addProduct: Function,
   addQuantity: Function,
   subtractQuantity: Function,
-  removeProduct: Function
+  removeProduct: Function,
+  emptyCart: Function
 }
 
 export type ModalItemProps = {
@@ -108,4 +111,28 @@ export type ItemModalProps = {
 export type OverlayProps = {
   modalVisibility: boolean,
   hideModal: any
+}
+
+export type OrderItem = {
+  name: string,
+  quantity: number,
+  price: number
+}
+
+export type OrderProps = {
+  id: number,
+  timeStamp: Date,
+  orderItems: OrderItem[],
+  total: number,
+  status: string
+}
+
+export type OrderContext = {
+  activeOrder: OrderProps,
+  addOrder: any
+}
+
+export type OrderActions = {
+  type: string,
+  payload: any
 }

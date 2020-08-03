@@ -1,15 +1,45 @@
 import React, { useContext } from  'react';
-import {Text, ScrollView, View, StyleSheet, TouchableOpacity} from 'react-native';
+import {Text, ScrollView, View, StyleSheet, TouchableOpacity, Dimensions} from 'react-native';
 
 import CartItem from '../components/CartItem';
 
-// import cart from '../assets/data/cart';
 import CartContext from '../context/CartContext';
+import OrdersContext from '../context/OrdersContext';
+import { CartItemProps, OrderItem, OrderProps } from '../types';
 
 const Cart = () => {
-    let body;
-
     const cart = useContext(CartContext);
+
+    const orders = useContext(OrdersContext);
+
+    const addOrder = () => {
+        const orderItems = cart.cartItems.reduce((acc: OrderItem[], item: CartItemProps) => {
+            return [
+                ...acc,
+                {
+                    name: item.name,
+                    quantity: item.quantity,
+                    price: +item.price - (+item.price * item.discount / 100)
+                }
+            ]
+        }, []);
+
+        const orderTotal = orderItems.reduce((acc: number, item) => {
+            return item.price * item.quantity + acc
+        }, 0)
+
+        const newOrder: OrderProps = {
+            id: +(Math.random()* 10000).toFixed(0),
+            orderItems: orderItems,
+            timeStamp:  new Date,
+            total: orderTotal,
+            status: 'pending'
+        }
+
+        orders.addOrder(newOrder);
+
+        cart.cartActions.emptyCart();
+    }
 
     const total = 
     <Text style={styles.totalTitle}>
@@ -28,7 +58,7 @@ const Cart = () => {
             }}
         >
             <Text style={styles.title} >Carrinho</Text>
-            {
+            {cart.cartItems.length > 0 &&
                 cart.cartItems.map((item, index) => {
                     return (
                         < CartItem 
@@ -52,7 +82,10 @@ const Cart = () => {
                         </Text>
                         {total}
                     </View>
-                    <TouchableOpacity style={styles.buyButton} >
+                    <TouchableOpacity 
+                        style={styles.buyButton}
+                        onPress={addOrder}
+                    >
                         <Text style={styles.buyButtonText} >
                             Pedir Já!
                         </Text>
@@ -61,8 +94,8 @@ const Cart = () => {
             }
 
             {cart.cartItems.length === 0 &&
-                <View>
-                    <Text style={styles.total}>
+                <View style={styles.emptyCartContainer}>
+                    <Text style={styles.emptyCart}>
                         Nenhum item no carrinho...
                     </Text>
                 </View>
@@ -120,7 +153,19 @@ const styles = StyleSheet.create({
     buyButtonText: {
         color: '#fff',
         fontWeight: '700'
-    }
+    },
+    emptyCart: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#555',
+        marginRight: 10
+    },
+    emptyCartContainer: {
+        width: '100%',
+        height: Dimensions.get('window').height * 0.5,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
 });
 
 export default Cart;

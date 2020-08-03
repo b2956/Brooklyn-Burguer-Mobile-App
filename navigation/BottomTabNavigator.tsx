@@ -31,17 +31,17 @@ export default function BottomTabNavigator() {
         }}
       />
       <BottomTab.Screen
-        name="Orders"
-        component={Orders}
-        options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-clipboard" color={color} />,
-        }}
-      />
-      <BottomTab.Screen
         name="Chat"
         component={Chat}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="ios-chatbubbles" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Pedidos"
+        component={Orders}
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="ios-clipboard" color={color} />,
         }}
       />
       <BottomTab.Screen
