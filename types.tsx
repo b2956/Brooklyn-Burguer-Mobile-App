@@ -12,6 +12,7 @@ export type BottomTabParamList = {
 
 export type MenuParamList = {
   MenuScreen: undefined;
+  CartScreen: undefined;
 };
 
 export type OrdersParamList = {
@@ -78,8 +79,7 @@ export type CartState = {
 }
 
 export type CartActionPayload = {
-  item: CartItemProps,
-  add?: number
+  item: CartItemProps
 }
 
 export type ReducerAction = {
@@ -126,7 +126,8 @@ export type OrderProps = {
   timeStamp: Date,
   orderItems: OrderItem[],
   total: number,
-  status: string
+  status: string,
+  adress: OrderAdress
 }
 
 export type OrderContext = {
@@ -153,4 +154,11 @@ export type OrderAdress = {
   street: string,
   complement: string,
   references: string
+}
+
+export type Location = {
+  latitude: number,
+  longitude: number,
+  latitudeDelta: number,
+  longitudeDelta: number,
 }

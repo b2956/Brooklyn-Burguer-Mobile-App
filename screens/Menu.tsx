@@ -11,7 +11,7 @@ import Overlay from '../components/Overlay';
 
 import menu from '../assets/data/menu';
 
-export default function TabOneScreen() {
+export default function MenuScreen() {
   const [modalVisibility, setModalVisibility] = useState(false);
   const [modalItem , setModalItem] = useState({} as ModalItemProps);
 

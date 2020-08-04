@@ -1,11 +1,20 @@
 import React, { useState } from 'react';
-import { Modal, View, ScrollView, Text, TextInput, StyleSheet, Dimensions, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { Modal, View, ScrollView, Text, TextInput, StyleSheet, Dimensions, TouchableOpacity, KeyboardAvoidingView, ActivityIndicator, ActivityIndicatorComponent } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
+import { requestPermissionsAsync,  getCurrentPositionAsync} from 'expo-location';
 
-import { BuyModalProps, OrderAdress } from '../types';
+
+import { BuyModalProps, OrderAdress, Location } from '../types';
+
+import mapsApiKey from '../config/mapsApiKey';
 
 const EndBuyModal = (props: BuyModalProps) => {
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
+    const [hasAdress, setHasAdress] =  useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [currentPosition, setCurrentPosition] = useState({} as Location);
+    
 
     const [orderAdress, setOrderAdress] = useState({
         cep: '',
@@ -17,7 +26,112 @@ const EndBuyModal = (props: BuyModalProps) => {
         street: ''
     } as OrderAdress);
 
+    const getDefaultAdress = () => {
+        setOrderAdress({
+            cep: '80060130',
+            city: 'Curitiba',
+            complement: 'Apto. 608',
+            neighborhood: 'Centro',
+            references: 'Próximo ao Missal Shawarma',
+            state: 'PR',
+            street: 'Francisco Torres 740'
+        });
+
+        setHasAdress(true);
+    }
+
+    const getCurrentLocation = async () => {
+        setIsLoading(true);
+
+        const { granted } = await requestPermissionsAsync();
+
+        if(granted) {
+            const { coords } = await getCurrentPositionAsync({
+                enableHighAccuracy: true,
+            });
+
+            // console.log(coords);
+
+            const { latitude, longitude } = coords;
+
+            // console.log(`${latitude}, ${longitude}`);
+
+            setCurrentPosition({
+                latitude,
+                longitude,
+                latitudeDelta: 0.04,
+                longitudeDelta: 0.04
+            });
+
+            
+            getAdressByLocation(latitude, longitude);
+        }
+    }
+
+    const getAdressByLocation = (latitude: number, longitude: number) => {
+        const apiCallUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${mapsApiKey}
+        `;
+
+        return fetch(apiCallUrl)
+            .then(response => {
+                // console.log(response);
+                return response.json();
+            })
+            .then(resData => {
+                if(resData.status === 'OK') {
+                    let cep, city, neighborhood, state, street, streetNumber;
+                    // console.log(resData.results[0]);
+
+                    const filterAdressComponent = (component: string) => {
+                        const addresComponent = resData.results[0].address_components.filter(item => item.types.includes(component));
+
+                        // console.log(addresComponent[0].short_name);
+
+                        return addresComponent[0].short_name;
+                    }
+
+                    cep = filterAdressComponent('postal_code');
+                    city = filterAdressComponent('administrative_area_level_2');
+                    neighborhood = filterAdressComponent('sublocality');
+                    state = filterAdressComponent('administrative_area_level_1');
+                    street = filterAdressComponent('route');
+                    streetNumber = filterAdressComponent('street_number');
+                    cep = cep.replace('-', '');
+
+                    const adress: OrderAdress = {
+                        cep: cep,
+                        city: city,
+                        complement: '',
+                        neighborhood: neighborhood,
+                        references: '',
+                        state: state,
+                        street: `${street}, ${streetNumber}`
+                    }
+
+                    // console.log(adress);
+
+                    setOrderAdress(adress);
+
+                    setIsLoading(false)
+
+                    setHasAdress(true);
+                }
+            })
+
+        //  "types" : [ "street_number" ]
+        //  "types" : [ "route" ]
+        //  "types" : [ "neighborhood", "political" ]
+        //  "types" : [ "political", "sublocality", "sublocality_level_1" ]
+        //  "types" : [ "administrative_area_level_2", "political" ]
+        //  "types" : [ "administrative_area_level_1", "political" ]
+        //  "types" : [ "country", "political" ]
+        //  "types" : [ "postal_code" ]
+    }
+
     const getAdressByCep = () => {
+
+        setIsLoading(true);
+
         return fetch(`https://brasilapi.com.br/api/cep/v1/${orderAdress.cep}`, {
             method: 'GET'
         })
@@ -28,7 +142,7 @@ const EndBuyModal = (props: BuyModalProps) => {
 
             setErrorMessage(resData.message);
             
-            return setOrderAdress( prevState => {
+            setOrderAdress( prevState => {
                 const adress: OrderAdress = {
                     ...prevState,
                     city: resData.city,
@@ -39,6 +153,10 @@ const EndBuyModal = (props: BuyModalProps) => {
 
                 return adress;
             })
+
+            setIsLoading(false)
+
+            return setHasAdress(true);
         })
         .catch(err => {
             setError(true)
@@ -79,50 +197,166 @@ const EndBuyModal = (props: BuyModalProps) => {
                             </TouchableOpacity>
                         </View>
                         <ScrollView style={styles.bodyContainer}>
-                            <View style={styles.inputContainer}>
-                                <Text>CEP:</Text>
-                                <TextInput 
-                                    value={orderAdress.cep}
-                                    keyboardType='numeric'
-                                    placeholder='ex: 05010000'
-                                    style={styles.input}
-                                    onChange={(target) => {
-                                        const targetName = 'cep';
-                                        const value = target.nativeEvent.text
+                            { (!hasAdress && !isLoading) &&
+                                <View>
+                                    <Text>Qual será o endereço de entrega?</Text>
+                                    <View style={styles.adressSelectionContainer}>
+                                        <Text style={styles.subTitle}>Utilizar endereço padrão</Text>
+                                        <TouchableOpacity 
+                                        onPress={getDefaultAdress}
+                                        style={styles.button}
+                                        >   
+                                            <Text style={styles.buttonText}>Endereço Padrão</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={styles.adressSelectionContainer}>
+                                        <Text style={styles.subTitle}>Obter Localização</Text>
+                                        <TouchableOpacity 
+                                        onPress={getCurrentLocation}
+                                        style={styles.button}
+                                        >   
+                                            <MaterialIcons name="my-location" size={24} color="#fff" />
+                                            <Text style={styles.buttonText}>Buscar Localização</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={styles.adressSelectionContainer}>
+                                        <Text style={styles.subTitle}>Buscar por CEP</Text>
+                                        <TextInput 
+                                            value={orderAdress.cep}
+                                            keyboardType='numeric'
+                                            placeholder='ex: 05010000'
+                                            style={styles.input}
+                                            onChange={(target) => {
+                                                const targetName = 'cep';
+                                                const value = target.nativeEvent.text
 
-                                        changeAdressValue(targetName, value);
-                                    }}
-                                />
-                            </View>
-                            <View style={styles.inputContainer}>
-                                <Text>Endereço:</Text>
-                                <TextInput 
-                                    value={orderAdress.street}
-                                    placeholder='ex. Avenida Faria Lima'
-                                    style={styles.input}
-                                />
-                            </View>
-                            <View style={styles.inputContainer}>
-                                <Text>Estado:</Text>
-                                <TextInput 
-                                    value={orderAdress.state}
-                                    keyboardType='numeric'
-                                    placeholder='ex. PR'
-                                    style={styles.input}
-                                />
-                            </View>
-                            <View style={styles.inputContainer}>
-                                <Text>Cidade:</Text>
-                                <TextInput 
-                                    value={orderAdress.city}
-                                    keyboardType='numeric'
-                                    placeholder='ex: Curitiba'
-                                    style={styles.input}
-                                />
-                            </View>
-                            <TouchableOpacity onPress={getAdressByCep}>
-                                <Text>Acionar API</Text>
-                            </TouchableOpacity>
+                                                changeAdressValue(targetName, value);
+                                            }}
+                                        />
+                                        <TouchableOpacity 
+                                        onPress={getAdressByCep}
+                                        style={styles.button}
+                                        >
+                                            <Text style={styles.buttonText}>Buscar Endereço</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                            }
+                            {isLoading &&
+                                <View style={styles.spinnerContainer}>
+                                    <ActivityIndicator color='#00ADEF' size="large" />
+                                </View>
+                            }
+                            { hasAdress &&
+                                <View>
+                                    <View style={styles.inputContainer}>
+                                        <Text>CEP:</Text>
+                                        <TextInput 
+                                            value={orderAdress.cep}
+                                            keyboardType='numeric'
+                                            placeholder='ex: 05010000'
+                                            style={styles.input}
+                                            onChange={(target) => {
+                                                const targetName = 'cep';
+                                                const value = target.nativeEvent.text
+
+                                                changeAdressValue(targetName, value);
+                                            }}
+                                        />
+                                    
+                                    </View>
+                                    <View style={styles.inputContainer}>
+                                        <Text>Endereço:</Text>
+                                        <TextInput 
+                                            value={orderAdress.street}
+                                            placeholder='ex. Av. das Torres'
+                                            style={styles.input}
+                                            onChange={(target) => {
+                                                const targetName = 'street';
+                                                const value = target.nativeEvent.text
+
+                                                changeAdressValue(targetName, value);
+                                            }}
+                                        />
+                                    </View>
+                                    <View style={styles.inputContainer}>
+                                        <Text>Estado:</Text>
+                                        <TextInput 
+                                            value={orderAdress.state}
+                                            placeholder='ex. PR'
+                                            style={styles.input}
+                                            onChange={(target) => {
+                                                const targetName = 'state';
+                                                const value = target.nativeEvent.text
+
+                                                changeAdressValue(targetName, value);
+                                            }}
+                                        />
+                                    </View>
+                                    <View style={styles.inputContainer}>
+                                        <Text>Cidade:</Text>
+                                        <TextInput 
+                                            value={orderAdress.city}
+                                            placeholder='ex: Curitiba'
+                                            style={styles.input}
+                                            onChange={(target) => {
+                                                const targetName = 'city';
+                                                const value = target.nativeEvent.text
+
+                                                changeAdressValue(targetName, value);
+                                            }}
+                                        />
+                                    </View>
+                                    <View style={styles.inputContainer}>
+                                        <Text>Bairro:</Text>
+                                        <TextInput 
+                                            value={orderAdress.neighborhood}
+                                            placeholder='ex: Centro'
+                                            style={styles.input}
+                                            onChange={(target) => {
+                                                const targetName = 'neighborhood';
+                                                const value = target.nativeEvent.text
+
+                                                changeAdressValue(targetName, value);
+                                            }}
+                                        />
+                                    </View>
+                                    <View style={styles.inputContainer}>
+                                        <Text>Complemento:</Text>
+                                        <TextInput 
+                                            value={orderAdress.complement}
+                                            placeholder='ex: Apto. 01'
+                                            style={styles.input}
+                                            onChange={(target) => {
+                                                const targetName = 'complement';
+                                                const value = target.nativeEvent.text
+
+                                                changeAdressValue(targetName, value);
+                                            }}
+                                        />
+                                    </View>
+                                    <View style={styles.inputContainer}>
+                                        <Text>Referências:</Text>
+                                        <TextInput 
+                                            value={orderAdress.references}
+                                            placeholder='ex: Pç. Osvaldo Cruz'
+                                            style={styles.input}
+                                            onChange={(target) => {
+                                                const targetName = 'references';
+                                                const value = target.nativeEvent.text
+
+                                                changeAdressValue(targetName, value);
+                                            }}
+                                        />
+                                    </View>
+                                    <TouchableOpacity 
+                                        onPress={getAdressByCep}
+                                        style={{...styles.button}}
+                                    >
+                                        <Text style={styles.buttonText}>Confirmar Endereço</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            }
                         </ScrollView>
                     </View>
                 </View>
@@ -159,7 +393,13 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         margin: 0,
         alignSelf: 'center',
-        textAlign: 'center'
+        textAlign: 'center',
+        color: '#333'
+    },
+    subTitle: {
+        fontSize: 18,
+        fontWeight: '700',
+        color: '#333'
     },
     closeButton: {
         height: 30,
@@ -186,14 +426,33 @@ const styles = StyleSheet.create({
     },
     bodyContainer: {
         marginTop: 20,
-        width: '80%'
+        width: '95%'
+    },
+    adressSelectionContainer: {
+        width: '90%',
+        height: 130,
+        marginVertical: 2.5,
+        paddingVertical: 5,
+        borderRadius: 5,
+        backgroundColor: '#fff',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: '#00ADEF',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.3,
+        shadowRadius: 2,
+        elevation: 2,
     },
     inputContainer: {
         width: '100%',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginVertical: 10
+        marginVertical: 10,
     },
     input: {
         backgroundColor: '#fff',
@@ -202,8 +461,38 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         paddingVertical: 0,
         paddingHorizontal: 10,
+        marginLeft: 10,
+        height: 35,
+        width: 200
+    },
+    button: {
+        backgroundColor: '#008bc1', 
+        height: 40,
+        width: 150,
+        borderRadius: 5,
+        flexDirection: 'row',
+        alignItems: "center",
+        justifyContent: 'center',
+        marginLeft: 5,
+        shadowColor: '#00ADEF',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 2,
+        elevation: 1,
+        marginVertical: 5
+    },
+    buttonText: {
+        color: '#fff',
+        fontWeight: '700'
+    },
+    spinnerContainer: {
         flex: 1,
-        marginLeft: 10
+        height: Dimensions.get('screen').height * 0.6,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 });
 

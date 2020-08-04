@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator  } from '@react-navigation/stack';
 import * as React from 'react';
 
 import Colors from '../constants/Colors';
@@ -9,6 +9,7 @@ import Menu from '../screens/Menu';
 import Orders from '../screens/Orders';
 import Chat from '../screens/Chat';
 import Cart from '../screens/Cart';
+
 import { BottomTabParamList, MenuParamList, OrdersParamList, ChatParamList, CartParamList } from '../types';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
@@ -105,7 +106,7 @@ function ChatNavigator() {
 
 const CartStack = createStackNavigator<CartParamList>();
 
-function CartNavigation() {
+function CartNavigator() {
   <CartStack.Navigator>
     <CartStack.Screen
       name="CartScreen"

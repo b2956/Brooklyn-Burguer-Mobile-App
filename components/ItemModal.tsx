@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { Modal, View, Text, Image, TouchableOpacity, StyleSheet, Dimensions, KeyboardAvoidingView, Platform } from 'react-native';
-import {  } from '@react-navigation/native'; 
+import { useNavigation } from '@react-navigation/native'; 
 
 import NumericInput from './NumericInput';
 
@@ -12,11 +12,15 @@ import Navigation from '../navigation';
 const ItemModal = (props: ItemModalProps) => {
     let modalContent;
 
+    const navigation = useNavigation();
+
     const [quantity, setQuantity] = useState(0);
     const [confimationMessage, setConfirmationMessage] = useState(false);
 
     const goToCart = () => {
-        
+        props.hideModal();
+
+        navigation.navigate('Carrinho')
     }
 
     const addQuantityHandlerOnPress = () => {
@@ -142,6 +146,7 @@ const ItemModal = (props: ItemModalProps) => {
                     </TouchableOpacity>
                     <TouchableOpacity 
                         style={styles.messageButton}
+                        onPress={goToCart}
                     >
                         <Text style={styles.messageButtonText}>
                             Finalizar Pedido
