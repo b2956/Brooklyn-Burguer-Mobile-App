@@ -1,7 +1,9 @@
-import React, { useContext } from  'react';
+import React, { useContext, useState } from  'react';
 import {Text, ScrollView, View, StyleSheet, TouchableOpacity, Dimensions} from 'react-native';
 
 import CartItem from '../components/CartItem';
+import EndBuyModal from '../components/EndBuyModal';
+import Overlay from '../components/Overlay';
 
 import CartContext from '../context/CartContext';
 import OrdersContext from '../context/OrdersContext';
@@ -9,6 +11,7 @@ import { CartItemProps, OrderItem, OrderProps } from '../types';
 
 const Cart = () => {
     const cart = useContext(CartContext);
+    const [ modalVisibility, setModalVisibility ] = useState(false);
 
     const orders = useContext(OrdersContext);
 
@@ -41,6 +44,14 @@ const Cart = () => {
         cart.cartActions.emptyCart();
     }
 
+    const hideModal = () => {
+        setModalVisibility(false);
+    }
+
+    const showModal = () => {
+        setModalVisibility(true);
+    }
+
     const total = 
     <Text style={styles.totalTitle}>
         R$ {
@@ -58,6 +69,19 @@ const Cart = () => {
             }}
         >
             <Text style={styles.title} >Carrinho</Text>
+            { modalVisibility && 
+                <Overlay
+                    hideModal={hideModal}
+                    modalVisibility={modalVisibility}
+                />
+            }
+            { modalVisibility && 
+                <EndBuyModal
+                    modalVisibility={modalVisibility}
+                    hideModal={hideModal}
+                    showModal={showModal}
+                />
+            }
             {cart.cartItems.length > 0 &&
                 cart.cartItems.map((item, index) => {
                     return (
@@ -84,7 +108,7 @@ const Cart = () => {
                     </View>
                     <TouchableOpacity 
                         style={styles.buyButton}
-                        onPress={addOrder}
+                        onPress={showModal}
                     >
                         <Text style={styles.buyButtonText} >
                             Pedir Já!

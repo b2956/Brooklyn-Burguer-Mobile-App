@@ -5,31 +5,9 @@ import { OrderProps } from '../types';
 
 const ActiveOrder = (props: OrderProps) => {
     let status, statusStyle;
-    
-    switch(props.status) {
-        case 'pending':
-            status = 'Aguardando aprovação';
-            statusStyle = styles.statusTextPending;
-            break
-        case 'aproved': 
-            status = 'Pedido sendo prepadado';
-            statusStyle = styles.statusTextAproved;
-            break
-        case 'done':
-            status = 'Aguardando saída para entrega';
-            statusStyle = styles.statusTextPending;
-            break
-        case 'leaving':
-            status = 'Pedido saiu para entrega';
-            statusStyle = styles.statusTextAproved;
-            break
-        default: 
-            status = 'Aguardando aprovação';
-            statusStyle = styles.statusTextPending;
-    }
 
-    useEffect(() => {
-        switch(props.status) {
+    const changeStatus = (propsStatus) => {
+        switch(propsStatus) {
             case 'pending':
                 status = 'Aguardando aprovação';
                 statusStyle = styles.statusTextPending;
@@ -50,6 +28,12 @@ const ActiveOrder = (props: OrderProps) => {
                 status = 'Aguardando aprovação';
                 statusStyle = styles.statusTextPending;
         }
+    }
+
+    changeStatus(props.status); 
+    
+    useEffect(() => {
+        changeStatus(props.status);
     }, [props.status]);    
 
     return (

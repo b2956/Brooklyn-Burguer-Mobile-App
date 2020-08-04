@@ -40,7 +40,8 @@ export type CustomImageParams = {
 export type NumericInputProps = {
   addQuantityOnPress: any,
   subtractQuantityOnPress: any,
-  quantity: number
+  quantity: number,
+  setItemQuantity: any
 };
 
 export type MenuItemProps = {
@@ -91,7 +92,8 @@ export type cartActionsTypes = {
   addQuantity: Function,
   subtractQuantity: Function,
   removeProduct: Function,
-  emptyCart: Function
+  emptyCart: Function,
+  setItemQuantity: Function
 }
 
 export type ModalItemProps = {
@@ -135,4 +137,20 @@ export type OrderContext = {
 export type OrderActions = {
   type: string,
   payload: any
+}
+
+export type BuyModalProps = {
+  modalVisibility: boolean,
+  showModal: any,
+  hideModal: any
+}
+
+export type OrderAdress = {
+  cep: string,
+  state: string,
+  city: string,
+  neighborhood: string,
+  street: string,
+  complement: string,
+  references: string
 }

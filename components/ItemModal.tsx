@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Modal, View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { Modal, View, Text, Image, TouchableOpacity, StyleSheet, Dimensions, KeyboardAvoidingView, Platform } from 'react-native';
 import {  } from '@react-navigation/native'; 
 
 import NumericInput from './NumericInput';
@@ -27,6 +27,10 @@ const ItemModal = (props: ItemModalProps) => {
         if (quantity > 0) {
             setQuantity(quantity - 1);
         }
+    }
+
+    const setItemQuantity = (value: number) => {
+        setQuantity(value);
     }
 
     const { cartActions, cartItems } = useContext(CartContext);
@@ -101,6 +105,7 @@ const ItemModal = (props: ItemModalProps) => {
                     addQuantityOnPress={addQuantityHandlerOnPress}
                     subtractQuantityOnPress={subtractQuantityHandlerOnPress}
                     quantity={quantity}
+                    setItemQuantity={setItemQuantity}
                 />
                 <TouchableOpacity 
                     style={styles.button}
@@ -155,9 +160,14 @@ const ItemModal = (props: ItemModalProps) => {
                 transparent={true}
                 onRequestClose={props.hideModal}
             >
-                <View style={styles.outsideContainer} >
-                    {modalContent}
-                </View>
+                <KeyboardAvoidingView
+                    behavior='padding'
+                    enabled
+                >
+                    <View style={styles.outsideContainer} >
+                        {modalContent}
+                    </View>
+                </KeyboardAvoidingView>
             </Modal>
     )
 }
@@ -173,7 +183,7 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
         backgroundColor: '#fff',
         borderRadius: 10,
-        height: '75%',
+        height: 500,
         width: '85%',
         marginHorizontal: 10,
         shadowColor: '#00ADEF',
@@ -219,6 +229,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'flex-end'
+    },
+    closeButtonText: {
+        fontWeight: '700',
+        color: '#fff',
+        fontSize: 25
     },
     imgContainer: {
         width: 180,
@@ -285,11 +300,6 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: '700',
         fontSize: 18
-    },
-    closeButtonText: {
-        fontWeight: '700',
-        color: '#fff',
-        fontSize: 25
     },
     outsideMessageContainer: {
         paddingVertical: 20,

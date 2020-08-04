@@ -20,6 +20,10 @@ const MainItem = (props: MainItemProps)  => {
         }
     }
 
+    const setItemQuantity = (value: number) => {
+        setQuantity(value);
+    }
+
     const { cartActions, cartItems } = useContext(CartContext);
 
     const product: CartItemProps = {
@@ -97,6 +101,7 @@ const MainItem = (props: MainItemProps)  => {
                     addQuantityOnPress={addQuantityHandlerOnPress}
                     subtractQuantityOnPress={subtractQuantityHandlerOnPress}
                     quantity={quantity}
+                    setItemQuantity={setItemQuantity}
                 />
                 <TouchableOpacity 
                     style={styles.button}

@@ -34,9 +34,7 @@ const reducer = (state: CartState, action: ReducerAction) => {
         return item.name === action.payload.item.name
       })
 
-      if(action.payload.add) {
-        newState.cartItems[itemIndex].quantity = newState.cartItems[itemIndex].quantity + action.payload.add
-      }   
+      newState.cartItems[itemIndex].quantity = +newState.cartItems[itemIndex].quantity + 1;
 
       return newState
     case 'SUBTRACT_PRODUCT_QUANTITY': 
@@ -48,11 +46,23 @@ const reducer = (state: CartState, action: ReducerAction) => {
         return item.name === action.payload.item.name
       })
 
-      newState.cartItems[itemIndex].quantity = newState.cartItems[itemIndex].quantity - 1;
+      newState.cartItems[itemIndex].quantity = +newState.cartItems[itemIndex].quantity - 1;
 
       if(newState.cartItems[itemIndex].quantity === 0) {
         newState.cartItems.splice(itemIndex, 1);
       }
+
+      return newState
+    case 'SET_ITEM_QUANTITY':
+      newState = {
+        ...state
+      }
+
+      itemIndex = newState.cartItems.findIndex(item => {
+        return item.name === action.payload.item.name
+      })
+
+      newState.cartItems[itemIndex].quantity = +action.payload.item.quantity;
 
       return newState
     case 'REMOVE_PRODUCT':
@@ -90,7 +100,8 @@ export default function App() {
       addQuantity: addCartProductQuantity,
       subtractQuantity: subtractCartProductQuantity,
       removeProduct: removeProductFromCart,
-      emptyCart: emptyCart
+      emptyCart: emptyCart,
+      setItemQuantity: setCartItemQuantity
     }
   }
 
@@ -110,7 +121,6 @@ export default function App() {
       type: 'ADD_PRODUCT_QUANTITY',
       payload: {
         item: product,
-        add: product.quantity
       }
     })
   }
@@ -120,7 +130,6 @@ export default function App() {
       type: 'SUBTRACT_PRODUCT_QUANTITY',
       payload: {
         item: product,
-        add: product.quantity
       }
     })
   }
@@ -130,6 +139,15 @@ export default function App() {
       type: 'REMOVE_PRODUCT',
       payload: {
         item: product
+      }
+    })
+  }
+
+  function setCartItemQuantity (product: CartItemProps) {
+    dispatch({
+      type: 'SET_ITEM_QUANTITY',
+      payload: {
+        item: product,
       }
     })
   }

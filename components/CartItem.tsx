@@ -8,11 +8,9 @@ import NumericInput from './NumericInput';
 import CartContext from '../context/CartContext';
 
 const CartItem = (props: CartItemProps) => {
-
     const { cartActions, cartItems } = useContext(CartContext);
     const product: CartItemProps = {
-        ...props,
-        quantity: 1
+        ...props
     }
 
     const addProduct = () => {
@@ -20,12 +18,30 @@ const CartItem = (props: CartItemProps) => {
     }
 
     const subtractProduct = () => {
+        if(!(props.quantity > 0)) {
+            return
+        }
         cartActions.subtractQuantity(product);
     }
 
     const removeProduct = () => {
         cartActions.removeProduct(product);
     }
+
+    const setItemquantity = (quantity: number) => {
+        const product = {
+            ...props,
+            quantity: quantity
+        }
+
+        cartActions.setItemQuantity(product);
+    }
+
+    if(props.quantity === 0) {
+        setTimeout(() => {
+            removeProduct();
+        }, 60000)
+    } 
 
     return (
         <View style={styles.container}>
@@ -55,6 +71,7 @@ const CartItem = (props: CartItemProps) => {
                         quantity={props.quantity}
                         addQuantityOnPress={addProduct}
                         subtractQuantityOnPress={subtractProduct}
+                        setItemQuantity={setItemquantity}
                     />
                     <TouchableOpacity 
                         style={styles.button}

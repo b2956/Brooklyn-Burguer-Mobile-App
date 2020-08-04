@@ -4,6 +4,10 @@ import { TextInput, Text, View, StyleSheet, TouchableOpacity } from 'react-nativ
 import { NumericInputProps } from '../types';
  
 const NumericInput = (props: NumericInputProps) => {
+    const setQuantity = () => {
+
+    }
+
     return (
         <View style={styles.container}>
             <TouchableOpacity 
@@ -12,7 +16,14 @@ const NumericInput = (props: NumericInputProps) => {
             >
                 <Text>-</Text>
             </TouchableOpacity>
-            <TextInput value={`${props.quantity}`} style={styles.input}/>
+            <TextInput 
+                value={`${props.quantity}`} 
+                style={styles.input}
+                keyboardType='numeric'
+                onChange={(quantity) => {
+                    props.setItemQuantity(quantity.nativeEvent.text)
+                }}
+            />
             <TouchableOpacity 
                 style={styles.button}
                 onPress={props.addQuantityOnPress}
