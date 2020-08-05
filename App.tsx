@@ -184,7 +184,7 @@ export default function App() {
   const [activeOrder, setActiveOrder] = useState({} as OrderProps)
   
   const addOrder = (order: OrderProps) => {
-    console.log(order);
+    // console.log(order);
     setActiveOrder({
       ...order
     })

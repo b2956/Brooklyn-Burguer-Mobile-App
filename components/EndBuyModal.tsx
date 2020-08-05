@@ -234,8 +234,8 @@ const EndBuyModal = (props: BuyModalProps) => {
                         </View>
                         <ScrollView style={styles.bodyContainer}>
                             { (!hasAdress && !isLoading) &&
-                                <View>
-                                    <View style={styles.adressSelectionContainer}>
+                                <View style={styles.selectionContainer}>
+                                    <View style={styles.adressSelectionItem}>
                                         <TouchableOpacity 
                                         onPress={getDefaultAdress}
                                         style={styles.button}
@@ -249,25 +249,27 @@ const EndBuyModal = (props: BuyModalProps) => {
                                             <MaterialIcons name="my-location" size={24} color="#fff" />
                                             <Text style={styles.buttonText}>Buscar Localização</Text>
                                         </TouchableOpacity>
-                                        <Text style={styles.subTitle}>Buscar por CEP</Text>
-                                        <TextInput 
-                                            value={orderAdress.cep}
-                                            keyboardType='numeric'
-                                            placeholder='ex: 05010000'
-                                            style={styles.input}
-                                            onChange={(target) => {
-                                                const targetName = 'cep';
-                                                const value = target.nativeEvent.text
+                                        <View style={styles.getByCepContainer}>
+                                            <Text style={styles.subTitle}>Buscar por CEP</Text>
+                                            <TextInput 
+                                                value={orderAdress.cep}
+                                                keyboardType='numeric'
+                                                placeholder='ex: 05010000'
+                                                style={styles.input}
+                                                onChange={(target) => {
+                                                    const targetName = 'cep';
+                                                    const value = target.nativeEvent.text
 
-                                                changeAdressValue(targetName, value);
-                                            }}
-                                        />
-                                        <TouchableOpacity 
-                                        onPress={getAdressByCep}
-                                        style={styles.button}
-                                        >
-                                            <Text style={styles.buttonText}>Buscar Endereço</Text>
-                                        </TouchableOpacity>
+                                                    changeAdressValue(targetName, value);
+                                                }}
+                                            />
+                                            <TouchableOpacity 
+                                            onPress={getAdressByCep}
+                                            style={styles.cepButton}
+                                            >
+                                                <Text style={styles.buttonText}>Buscar CEP</Text>
+                                            </TouchableOpacity>
+                                        </View>
                                     </View>
                                 </View>
                             }
@@ -277,9 +279,9 @@ const EndBuyModal = (props: BuyModalProps) => {
                                 </View>
                             }
                             { hasAdress &&
-                                <View>
+                                <View style={styles.adressContainer}>
                                     <View style={styles.inputContainer}>
-                                        <Text>CEP:</Text>
+                                        <Text style={styles.subTitle}>CEP</Text>
                                         <TextInput 
                                             value={orderAdress.cep}
                                             keyboardType='numeric'
@@ -295,7 +297,7 @@ const EndBuyModal = (props: BuyModalProps) => {
                                     
                                     </View>
                                     <View style={styles.inputContainer}>
-                                        <Text>Endereço:</Text>
+                                        <Text style={styles.subTitle}>Endereço</Text>
                                         <TextInput 
                                             value={orderAdress.street}
                                             placeholder='ex. Av. das Torres'
@@ -309,7 +311,7 @@ const EndBuyModal = (props: BuyModalProps) => {
                                         />
                                     </View>
                                     <View style={styles.inputContainer}>
-                                        <Text>Estado:</Text>
+                                        <Text style={styles.subTitle}>Estado</Text>
                                         <TextInput 
                                             value={orderAdress.state}
                                             placeholder='ex. PR'
@@ -323,7 +325,7 @@ const EndBuyModal = (props: BuyModalProps) => {
                                         />
                                     </View>
                                     <View style={styles.inputContainer}>
-                                        <Text>Cidade:</Text>
+                                        <Text style={styles.subTitle}>Cidade</Text>
                                         <TextInput 
                                             value={orderAdress.city}
                                             placeholder='ex: Curitiba'
@@ -337,7 +339,7 @@ const EndBuyModal = (props: BuyModalProps) => {
                                         />
                                     </View>
                                     <View style={styles.inputContainer}>
-                                        <Text>Bairro:</Text>
+                                        <Text style={styles.subTitle}>Bairro</Text>
                                         <TextInput 
                                             value={orderAdress.neighborhood}
                                             placeholder='ex: Centro'
@@ -351,7 +353,7 @@ const EndBuyModal = (props: BuyModalProps) => {
                                         />
                                     </View>
                                     <View style={styles.inputContainer}>
-                                        <Text>Complemento:</Text>
+                                        <Text style={styles.subTitle}>Complemento</Text>
                                         <TextInput 
                                             value={orderAdress.complement}
                                             placeholder='ex: Apto. 01'
@@ -365,7 +367,7 @@ const EndBuyModal = (props: BuyModalProps) => {
                                         />
                                     </View>
                                     <View style={styles.inputContainer}>
-                                        <Text>Referências:</Text>
+                                        <Text style={styles.subTitle}>Referências</Text>
                                         <TextInput 
                                             value={orderAdress.references}
                                             placeholder='ex: Pç. Osvaldo Cruz'
@@ -407,15 +409,18 @@ const styles = StyleSheet.create({
         backgroundColor: '#f5f8f9',
         borderRadius: 10,
         justifyContent: 'flex-start',
-        alignItems: 'center',
-        paddingVertical: 10
+        alignItems: 'center'
     },
     headContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        width: '85%',
-        minHeight: 30
+        width: '100%',
+        padding: 10,
+        backgroundColor: '#00ADEF',
+        minHeight: 30,
+        borderTopRightRadius: 10,
+        borderTopLeftRadius: 10
     },
     title: {
         fontSize: 21,
@@ -423,7 +428,7 @@ const styles = StyleSheet.create({
         margin: 0,
         alignSelf: 'center',
         textAlign: 'center',
-        color: '#333'
+        color: '#fff'
     },
     subTitle: {
         fontSize: 18,
@@ -434,15 +439,15 @@ const styles = StyleSheet.create({
         height: 30,
         width: 30,
         borderRadius: 15,
-        backgroundColor: '#008bc1',
-        shadowColor: '#00ADEF',
-        shadowOffset: {
-            width: 0,
-            height: 5,
-        },
-        shadowOpacity: 0.7,
-        shadowRadius: 5.46,
-        elevation: 9,
+        backgroundColor: '#fff',
+        // shadowColor: '#00ADEF',
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 5,
+        // },
+        // shadowOpacity: 0.7,
+        // shadowRadius: 5.46,
+        // elevation: 9,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -450,14 +455,18 @@ const styles = StyleSheet.create({
     },
     closeButtonText: {
         fontWeight: '700',
-        color: '#fff',
+        color: '#00ADEF',
         fontSize: 25
     },
     bodyContainer: {
         marginTop: 20,
         width: '95%'
     },
-    adressSelectionContainer: {
+    selectionContainer: {
+        flex: 1,
+        justifyContent: 'flex-start'
+    },
+    adressSelectionItem: {
         width: '90%',
         height: 300,
         marginVertical: 2.5,
@@ -476,10 +485,14 @@ const styles = StyleSheet.create({
         // shadowRadius: 2,
         // elevation: 2,
     },
+    adressContainer: {
+        paddingHorizontal: 20,
+        alignItems: 'flex-start'
+    },
     inputContainer: {
         width: '100%',
-        flexDirection: 'row',
-        alignItems: 'center',
+        // flexDirection: 'row',
+        alignItems: 'flex-start',
         justifyContent: 'space-between',
         marginVertical: 10,
     },
@@ -490,7 +503,6 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         paddingVertical: 0,
         paddingHorizontal: 10,
-        marginLeft: 10,
         height: 35,
         width: 200
     },
@@ -503,7 +515,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: 'center',
         padding: 10,
-        marginLeft: 5,
         shadowColor: '#00ADEF',
         shadowOffset: {
             width: 0,
@@ -512,7 +523,30 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowRadius: 2,
         elevation: 1,
-        marginVertical: 5
+        marginVertical: 20
+    },
+    getByCepContainer: {
+        alignItems: 'center',
+        marginTop: 10
+    },
+    cepButton: {
+        backgroundColor: '#008bc1', 
+        height: 40,
+        width: 180,
+        borderRadius: 5,
+        flexDirection: 'row',
+        alignItems: "center",
+        justifyContent: 'center',
+        padding: 10,
+        shadowColor: '#00ADEF',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 2,
+        elevation: 1,
+        marginVertical: 10
     },
     locationButton: {
         backgroundColor: '#008bc1', 

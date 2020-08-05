@@ -184,8 +184,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     insideContainer: {
-        paddingVertical: 20,
         backgroundColor: '#fff',
+        paddingBottom: 20,
         borderRadius: 10,
         height: 500,
         width: '85%',
@@ -205,30 +205,27 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        width: '85%',
-        minHeight: 30
+        width: '100%',
+        minHeight: 30,
+        padding: 10,
+        backgroundColor: '#00ADEF',
+        borderTopRightRadius: 10,
+        borderTopLeftRadius: 10,
+        marginBottom: 10
     },
     title: {
         fontSize: 21,
         fontWeight: '700',
         margin: 0,
         alignSelf: 'center',
-        textAlign: 'center'
+        textAlign: 'center',
+        color: '#fff'
     },
     closeButton: {
         height: 30,
         width: 30,
         borderRadius: 15,
-        // backgroundColor: '#f5f8f9',
-        backgroundColor: '#008bc1',
-        shadowColor: '#00ADEF',
-        shadowOffset: {
-            width: 0,
-            height: 5,
-        },
-        shadowOpacity: 0.7,
-        shadowRadius: 5.46,
-        elevation: 9,
+        backgroundColor: '#fff',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -236,7 +233,7 @@ const styles = StyleSheet.create({
     },
     closeButtonText: {
         fontWeight: '700',
-        color: '#fff',
+        color: '#00ADEF',
         fontSize: 25
     },
     imgContainer: {
@@ -306,10 +303,9 @@ const styles = StyleSheet.create({
         fontSize: 18
     },
     outsideMessageContainer: {
-        paddingVertical: 20,
         backgroundColor: '#fff',
         borderRadius: 10,
-        height: '75%',
+        height: 500,
         width: '85%',
         marginHorizontal: 10,
         shadowColor: '#00ADEF',
@@ -325,10 +321,15 @@ const styles = StyleSheet.create({
     },
     messageHeadContainer: {
         flexDirection: 'row',
-        width: '85%',
-        alignItems: 'center',
         justifyContent: 'flex-end',
-        minHeight: 30
+        alignItems: 'center',
+        width: '100%',
+        minHeight: 30,
+        padding: 10,
+        backgroundColor: '#00ADEF',
+        borderTopRightRadius: 10,
+        borderTopLeftRadius: 10,
+        marginBottom: 10
     },
     insideMessageContainer: {
         width: Dimensions.get('window').width * 0.8,

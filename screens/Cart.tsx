@@ -43,6 +43,8 @@ const Cart = () => {
 
         orders.addOrder(newOrder);
 
+        hideModal();
+
         cart.cartActions.emptyCart();
     }
 
