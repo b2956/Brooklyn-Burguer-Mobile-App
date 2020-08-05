@@ -34,8 +34,20 @@ const reducer = (state: CartState, action: ReducerAction) => {
         return item.name === action.payload.item.name
       })
 
-      newState.cartItems[itemIndex].quantity = +newState.cartItems[itemIndex].quantity + 1;
+      newState.cartItems[itemIndex].quantity = +newState.cartItems[itemIndex].quantity + action.payload.item.quantity;
 
+      return newState
+    case 'ADD_PRODUCT_QUANTITY_BY_ONE':
+      newState = {
+        ...state
+      }
+  
+      itemIndex = newState.cartItems.findIndex(item => {
+        return item.name === action.payload.item.name
+      })
+  
+      newState.cartItems[itemIndex].quantity = +newState.cartItems[itemIndex].quantity + 1;
+  
       return newState
     case 'SUBTRACT_PRODUCT_QUANTITY': 
       newState = {
@@ -98,6 +110,7 @@ export default function App() {
     cartActions:  {
       addProduct: addNewProductToCart,
       addQuantity: addCartProductQuantity,
+      addQuantityByOne: addCartProductQuantityByOne,
       subtractQuantity: subtractCartProductQuantity,
       removeProduct: removeProductFromCart,
       emptyCart: emptyCart,
@@ -119,6 +132,15 @@ export default function App() {
   function addCartProductQuantity (product: CartItemProps):any {
     dispatch({
       type: 'ADD_PRODUCT_QUANTITY',
+      payload: {
+        item: product,
+      }
+    })
+  }
+
+  function addCartProductQuantityByOne (product: CartItemProps):any {
+    dispatch({
+      type: 'ADD_PRODUCT_QUANTITY_BY_ONE',
       payload: {
         item: product,
       }
@@ -162,6 +184,7 @@ export default function App() {
   const [activeOrder, setActiveOrder] = useState({} as OrderProps)
   
   const addOrder = (order: OrderProps) => {
+    console.log(order);
     setActiveOrder({
       ...order
     })

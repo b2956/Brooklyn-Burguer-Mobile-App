@@ -14,7 +14,7 @@ const CartItem = (props: CartItemProps) => {
     }
 
     const addProduct = () => {
-        cartActions.addQuantity(product);
+        cartActions.addQuantityByOne(product);
     }
 
     const subtractProduct = () => {

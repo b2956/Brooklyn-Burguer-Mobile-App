@@ -133,7 +133,6 @@ const ItemModal = (props: ItemModalProps) => {
                 </TouchableOpacity>
             </View>
             <View style={styles.insideMessageContainer}>
-                <Text style={styles.messageTitle}>Adicionado ao carrinho.</Text>
                 <Text style={styles.messageTitle}>Deseja adicionar mais Items?</Text>
                 <View style={styles.buttonsContainer} >
                     <TouchableOpacity 
@@ -345,9 +344,10 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     buttonsContainer: {
-        flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
         width: '95%',
+        height: 100,
         marginTop: 50
     },
     messageButtonText: {

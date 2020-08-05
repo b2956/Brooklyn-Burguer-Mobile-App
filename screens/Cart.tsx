@@ -7,7 +7,7 @@ import Overlay from '../components/Overlay';
 
 import CartContext from '../context/CartContext';
 import OrdersContext from '../context/OrdersContext';
-import { CartItemProps, OrderItem, OrderProps } from '../types';
+import { CartItemProps, OrderItem, OrderProps, OrderAdress, Location } from '../types';
 
 const Cart = () => {
     const cart = useContext(CartContext);
@@ -15,7 +15,7 @@ const Cart = () => {
 
     const orders = useContext(OrdersContext);
 
-    const addOrder = () => {
+    const addOrder = (adress: OrderAdress, location: Location) => {
         const orderItems = cart.cartItems.reduce((acc: OrderItem[], item: CartItemProps) => {
             return [
                 ...acc,
@@ -36,7 +36,9 @@ const Cart = () => {
             orderItems: orderItems,
             timeStamp:  new Date,
             total: orderTotal,
-            status: 'pending'
+            status: 'pending',
+            adress: adress,
+            location: location
         }
 
         orders.addOrder(newOrder);
@@ -80,6 +82,7 @@ const Cart = () => {
                     modalVisibility={modalVisibility}
                     hideModal={hideModal}
                     showModal={showModal}
+                    addOrder={addOrder}
                 />
             }
             {cart.cartItems.length > 0 &&

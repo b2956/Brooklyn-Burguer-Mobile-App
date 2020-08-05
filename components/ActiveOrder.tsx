@@ -6,7 +6,7 @@ import { OrderProps } from '../types';
 const ActiveOrder = (props: OrderProps) => {
     let status, statusStyle;
 
-    const changeStatus = (propsStatus) => {
+    const changeStatus = (propsStatus: string) => {
         switch(propsStatus) {
             case 'pending':
                 status = 'Aguardando aprovação';
@@ -29,6 +29,8 @@ const ActiveOrder = (props: OrderProps) => {
                 statusStyle = styles.statusTextPending;
         }
     }
+
+    console.log(props.adress);
 
     changeStatus(props.status); 
     
@@ -58,6 +60,10 @@ const ActiveOrder = (props: OrderProps) => {
             <View style={styles.titleContainer}>
                 <Text style={styles.boldText}>Total: </Text>
                 <Text>R${props.total.toFixed(2)}</Text>
+            </View>
+            <View style={styles.titleContainer}>
+                <Text style={styles.boldText}>Endereço: </Text>
+                <Text>{props.adress.street}</Text>
             </View>
             <View style={styles.titleContainer}>
                 <Text style={styles.boldText}>Status: </Text>

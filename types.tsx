@@ -90,6 +90,7 @@ export type ReducerAction = {
 export type cartActionsTypes = {
   addProduct: Function,
   addQuantity: Function,
+  addQuantityByOne: Function,
   subtractQuantity: Function,
   removeProduct: Function,
   emptyCart: Function,
@@ -127,7 +128,8 @@ export type OrderProps = {
   orderItems: OrderItem[],
   total: number,
   status: string,
-  adress: OrderAdress
+  adress: OrderAdress,
+  location: Location
 }
 
 export type OrderContext = {
@@ -143,7 +145,8 @@ export type OrderActions = {
 export type BuyModalProps = {
   modalVisibility: boolean,
   showModal: any,
-  hideModal: any
+  hideModal: any,
+  addOrder: Function
 }
 
 export type OrderAdress = {

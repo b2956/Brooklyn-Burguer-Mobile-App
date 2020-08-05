@@ -27,7 +27,7 @@ const EndBuyModal = (props: BuyModalProps) => {
     } as OrderAdress);
 
     const getDefaultAdress = () => {
-        setOrderAdress({
+        const adress = {
             cep: '80060130',
             city: 'Curitiba',
             complement: 'Apto. 608',
@@ -35,7 +35,11 @@ const EndBuyModal = (props: BuyModalProps) => {
             references: 'Próximo ao Missal Shawarma',
             state: 'PR',
             street: 'Francisco Torres 740'
-        });
+        }
+
+        setOrderAdress(adress);
+
+        getPositionByAdress(adress);
 
         setHasAdress(true);
     }
@@ -117,15 +121,9 @@ const EndBuyModal = (props: BuyModalProps) => {
                     setHasAdress(true);
                 }
             })
+            .catch(err => {
 
-        //  "types" : [ "street_number" ]
-        //  "types" : [ "route" ]
-        //  "types" : [ "neighborhood", "political" ]
-        //  "types" : [ "political", "sublocality", "sublocality_level_1" ]
-        //  "types" : [ "administrative_area_level_2", "political" ]
-        //  "types" : [ "administrative_area_level_1", "political" ]
-        //  "types" : [ "country", "political" ]
-        //  "types" : [ "postal_code" ]
+            })
     }
 
     const getAdressByCep = () => {
@@ -151,16 +149,50 @@ const EndBuyModal = (props: BuyModalProps) => {
                     street: resData.street
                 }
 
+                getPositionByAdress(adress);
+
                 return adress;
             })
 
-            setIsLoading(false)
+            setIsLoading(false);
 
             return setHasAdress(true);
         })
         .catch(err => {
             setError(true)
         })
+    }
+
+    const getPositionByAdress = (orderAdress: OrderAdress) => {
+
+        const streetName = orderAdress.street.split(' ').join('+');
+
+        const apiCallUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${streetName}+${orderAdress.state}+${orderAdress.city}&key=${mapsApiKey}
+        `;
+
+        return fetch(apiCallUrl)
+            .then(response => {
+                // console.log(response);
+                return response.json();
+            })
+            .then(resData => {
+                if(resData.status === 'OK') {
+
+                    const {lat, lng} = resData.results[0].geometry.location;
+
+                    // console.log(`${lat}, ${lng}`)
+
+                    setCurrentPosition({
+                        latitude: lat,
+                        longitude: lng,
+                        latitudeDelta: 0.04,
+                        longitudeDelta: 0.04
+                    })
+                }
+            })
+            .catch(err => {
+
+            })
     }
 
     const changeAdressValue = (target: string, value: string) => {
@@ -173,6 +205,10 @@ const EndBuyModal = (props: BuyModalProps) => {
 
             return  newAdress
         })
+    }
+
+    const addNewOrder = () => {
+        props.addOrder(orderAdress, currentPosition);
     }
 
     return (
@@ -188,7 +224,7 @@ const EndBuyModal = (props: BuyModalProps) => {
                 <View style={styles.outerContainer}>
                     <View style={styles.innerContainer}>
                         <View style={styles.headContainer}>
-                            <Text style={styles.title}>Checkout</Text>
+                            <Text style={styles.title}>Selecionar Endereço</Text>
                             <TouchableOpacity 
                                 style={styles.closeButton}
                                 onPress={props.hideModal}
@@ -199,27 +235,20 @@ const EndBuyModal = (props: BuyModalProps) => {
                         <ScrollView style={styles.bodyContainer}>
                             { (!hasAdress && !isLoading) &&
                                 <View>
-                                    <Text>Qual será o endereço de entrega?</Text>
                                     <View style={styles.adressSelectionContainer}>
-                                        <Text style={styles.subTitle}>Utilizar endereço padrão</Text>
                                         <TouchableOpacity 
                                         onPress={getDefaultAdress}
                                         style={styles.button}
                                         >   
-                                            <Text style={styles.buttonText}>Endereço Padrão</Text>
+                                            <Text style={styles.buttonText}>Usar Endereço Padrão</Text>
                                         </TouchableOpacity>
-                                    </View>
-                                    <View style={styles.adressSelectionContainer}>
-                                        <Text style={styles.subTitle}>Obter Localização</Text>
                                         <TouchableOpacity 
                                         onPress={getCurrentLocation}
-                                        style={styles.button}
+                                        style={styles.locationButton}
                                         >   
                                             <MaterialIcons name="my-location" size={24} color="#fff" />
                                             <Text style={styles.buttonText}>Buscar Localização</Text>
                                         </TouchableOpacity>
-                                    </View>
-                                    <View style={styles.adressSelectionContainer}>
                                         <Text style={styles.subTitle}>Buscar por CEP</Text>
                                         <TextInput 
                                             value={orderAdress.cep}
@@ -349,9 +378,9 @@ const EndBuyModal = (props: BuyModalProps) => {
                                             }}
                                         />
                                     </View>
-                                    <TouchableOpacity 
-                                        onPress={getAdressByCep}
+                                    <TouchableOpacity
                                         style={{...styles.button}}
+                                        onPress={addNewOrder}
                                     >
                                         <Text style={styles.buttonText}>Confirmar Endereço</Text>
                                     </TouchableOpacity>
@@ -430,22 +459,22 @@ const styles = StyleSheet.create({
     },
     adressSelectionContainer: {
         width: '90%',
-        height: 130,
+        height: 300,
         marginVertical: 2.5,
         paddingVertical: 5,
-        borderRadius: 5,
-        backgroundColor: '#fff',
+        // borderRadius: 5,
+        // backgroundColor: '#fff',
         alignSelf: 'center',
         justifyContent: 'center',
         alignItems: 'center',
-        shadowColor: '#00ADEF',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.3,
-        shadowRadius: 2,
-        elevation: 2,
+        // shadowColor: '#00ADEF',
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 2,
+        // },
+        // shadowOpacity: 0.3,
+        // shadowRadius: 2,
+        // elevation: 2,
     },
     inputContainer: {
         width: '100%',
@@ -468,11 +497,32 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#008bc1', 
         height: 40,
-        width: 150,
+        width: 180,
         borderRadius: 5,
         flexDirection: 'row',
         alignItems: "center",
         justifyContent: 'center',
+        padding: 10,
+        marginLeft: 5,
+        shadowColor: '#00ADEF',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 2,
+        elevation: 1,
+        marginVertical: 5
+    },
+    locationButton: {
+        backgroundColor: '#008bc1', 
+        height: 40,
+        width: 180,
+        borderRadius: 5,
+        flexDirection: 'row',
+        alignItems: "center",
+        justifyContent: 'space-between',
+        padding: 10,
         marginLeft: 5,
         shadowColor: '#00ADEF',
         shadowOffset: {

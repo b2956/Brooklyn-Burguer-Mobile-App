@@ -20,6 +20,7 @@ const Orders = () => {
                   status={activeOrder.status}
                   timeStamp={activeOrder.timeStamp}
                   total={activeOrder.total}
+                  adress={activeOrder.adress}
                   key={activeOrder.id}
                 />
               }
@@ -30,6 +31,7 @@ const Orders = () => {
                   status={activeOrder.status}
                   timeStamp={activeOrder.timeStamp}
                   total={activeOrder.total}
+                  adress={activeOrder.adress}
                   key={activeOrder.id + 1}
                 />
               }
