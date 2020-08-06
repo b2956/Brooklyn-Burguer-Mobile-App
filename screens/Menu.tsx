@@ -159,14 +159,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f8f9'
   },
   title: {
-    fontSize: 20,
+    fontSize: 25,
     padding: 20,
     fontWeight: 'bold',
     color: '#333'
   },
   mainItemsContainer: {
-    height: 340,
-    marginLeft: 10
+    height: 420,
+    marginLeft: 10,
+    marginTop: 10
   },
   outsideContainer: {
     width: '100%',

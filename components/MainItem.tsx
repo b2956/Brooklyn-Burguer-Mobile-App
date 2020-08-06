@@ -91,9 +91,9 @@ const MainItem = (props: MainItemProps)  => {
                 </Text>
             </TouchableWithoutFeedback>
             <View style={styles.price}>
-                <Text style={{color: '#999'}}>De: </Text>
+                <Text style={{color: '#999', fontSize: 16}}>De: </Text>
                 <Text style={styles.oldPrice}>R${props.price}</Text>
-                <Text>  Por: </Text>
+                <Text style={styles.plainText}>  Por: </Text>
                 <Text style={styles.newPrice}>R${(+props.price - (props.discount * +props.price)/ 100).toFixed(2)}</Text>
             </View>
             <View style={styles.addTooCart}>
@@ -118,8 +118,8 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
         borderRadius: 10,
-        height: 320,
-        width: 200,
+        height: 400,
+        width: 250,
         marginHorizontal: 10,
         shadowColor: '#00ADEF',
         shadowOffset: {
@@ -136,12 +136,15 @@ const styles = StyleSheet.create({
     },
     imgContainer: {
         width: 180,
-        height: 130,
+        height: 180,
         overflow: 'hidden',
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10,
-        margin: 10
+        margin: 10,
+        // borderWidth: 10,
+        // borderColor: '#7fd6f7',
+
     },
     img: {
         width: 180,
@@ -149,33 +152,42 @@ const styles = StyleSheet.create({
     },
     ingredients: {
         color: '#999',
-        width: 180,
-        textAlign: 'justify'
+        width: 220,
+        textAlign: 'justify',
+        marginVertical: 10,
+        fontSize: 16
     },
     title: {
-        fontSize: 16,
+        fontSize: 20,
         fontWeight: '700',
         marginTop: 10
     },
     price: {
         display: 'flex',
-        width: 180,
+        width: 220,
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        
     },
     oldPrice: {
         color: '#999',
         textDecorationLine: 'line-through',
+        fontSize: 16
     },
     newPrice: {
         fontWeight: '700',
-        color: 'green'
+        color: 'green',
+        fontSize: 16
+    },
+    plainText: {
+        fontSize: 18
     },
     addTooCart: {
         justifyContent: 'space-between',
         flexDirection: 'row',
         alignItems: 'center',
-        flex: 1
+        flex: 1,
+        width: 220
     },
     button: {
         backgroundColor: '#008bc1', 

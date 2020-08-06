@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
     },
     imgContainer: {
         width: 180,
-        height: 150,
+        height: 180,
         overflow: 'hidden',
         justifyContent: 'center',
         alignItems: 'center',
@@ -246,12 +246,12 @@ const styles = StyleSheet.create({
         margin: 20
     },
     img: {
-        width: 180,
-        height: 180
+        width: 190,
+        height: 190
     },
     ingredients: {
         color: '#999',
-        width: 230,
+        width: 250,
         textAlign: 'justify',
         fontSize: 16,
         minHeight: 100
