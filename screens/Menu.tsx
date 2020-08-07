@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     color: '#333'
   },
   mainItemsContainer: {
-    height: 420,
+    height: 400,
     marginLeft: 10,
     marginTop: 10
   },

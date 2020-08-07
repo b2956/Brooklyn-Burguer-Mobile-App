@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, View, ScrollView, Text, TextInput, StyleSheet, Dimensions, TouchableOpacity, KeyboardAvoidingView, ActivityIndicator, ActivityIndicatorComponent } from 'react-native';
+import { Modal, View, ScrollView, Text, TextInput, StyleSheet, Dimensions, TouchableOpacity, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { requestPermissionsAsync,  getCurrentPositionAsync} from 'expo-location';
 
@@ -14,7 +14,6 @@ const EndBuyModal = (props: BuyModalProps) => {
     const [errorMessage, setErrorMessage] = useState(null);
     const [hasAdress, setHasAdress] =  useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [isPaying, setIsPaying] = useState(false);
     const [currentPosition, setCurrentPosition] = useState({} as Location);
     
 
@@ -210,8 +209,8 @@ const EndBuyModal = (props: BuyModalProps) => {
     }
 
     const getCheckout = () => {
-        setHasAdress(false);
-        setIsPaying(true);
+        props.hideModal();
+        props.goToCheckout();
     }
 
     const addNewOrder = () => {
@@ -240,12 +239,7 @@ const EndBuyModal = (props: BuyModalProps) => {
                             </TouchableOpacity>
                         </View>
                         <ScrollView style={styles.bodyContainer}>
-                            { isPaying &&
-                                <View style={{ flex: 1, alignItems: 'flex-end' }}>
-                                    <MercadoPagoWebView/>
-                                </View>
-                            }
-                            { (!hasAdress && !isLoading && !isPaying) &&
+                            { (!hasAdress && !isLoading ) &&
                                 <View style={styles.selectionContainer}>
                                     <View style={styles.adressSelectionItem}>
                                         <TouchableOpacity 
@@ -394,7 +388,7 @@ const EndBuyModal = (props: BuyModalProps) => {
                                     </View>
                                     <TouchableOpacity
                                         style={{...styles.button}}
-                                        onPress={addNewOrder}
+                                        onPress={getCheckout}
                                     >
                                         <Text style={styles.buttonText}>Confirmar Endereço</Text>
                                     </TouchableOpacity>
@@ -445,7 +439,8 @@ const styles = StyleSheet.create({
     subTitle: {
         fontSize: 18,
         fontWeight: '700',
-        color: '#333'
+        color: '#333',
+        alignSelf: 'flex-start'
     },
     closeButton: {
         height: 30,
@@ -499,12 +494,12 @@ const styles = StyleSheet.create({
     },
     adressContainer: {
         paddingHorizontal: 20,
-        alignItems: 'flex-start'
+        alignItems: 'center',
     },
     inputContainer: {
-        width: '100%',
+        // width: '100%',
         // flexDirection: 'row',
-        alignItems: 'flex-start',
+        alignItems: 'center',
         justifyContent: 'space-between',
         marginVertical: 10,
     },

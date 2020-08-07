@@ -1,5 +1,6 @@
 import React, { useContext, useState } from  'react';
 import {Text, ScrollView, View, StyleSheet, TouchableOpacity, Dimensions} from 'react-native';
+import {  } from '@react-navigation/stack'
 
 import CartItem from '../components/CartItem';
 import EndBuyModal from '../components/EndBuyModal';
@@ -9,11 +10,15 @@ import CartContext from '../context/CartContext';
 import OrdersContext from '../context/OrdersContext';
 import { CartItemProps, OrderItem, OrderProps, OrderAdress, Location } from '../types';
 
-const Cart = () => {
+const Cart = ({ navigation }: any) => {
     const cart = useContext(CartContext);
     const [ modalVisibility, setModalVisibility ] = useState(false);
 
     const orders = useContext(OrdersContext);
+
+    const goToCheckout = () => {
+        navigation.navigate('CheckoutScreen');
+    }
 
     const addOrder = (adress: OrderAdress, location: Location) => {
         const orderItems = cart.cartItems.reduce((acc: OrderItem[], item: CartItemProps) => {
@@ -85,6 +90,7 @@ const Cart = () => {
                     hideModal={hideModal}
                     showModal={showModal}
                     addOrder={addOrder}
+                    goToCheckout={goToCheckout}
                 />
             }
             {cart.cartItems.length > 0 &&

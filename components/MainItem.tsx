@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
         borderRadius: 10,
-        height: 400,
+        height: 375,
         width: 250,
         marginHorizontal: 10,
         shadowColor: '#00ADEF',
@@ -135,8 +135,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     imgContainer: {
-        width: 180,
-        height: 180,
+        width: 150,
+        height: 150,
         overflow: 'hidden',
         justifyContent: 'center',
         alignItems: 'center',
@@ -147,8 +147,8 @@ const styles = StyleSheet.create({
 
     },
     img: {
-        width: 180,
-        height: 180
+        width: 160,
+        height: 160
     },
     ingredients: {
         color: '#999',
@@ -160,7 +160,8 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 20,
         fontWeight: '700',
-        marginTop: 10
+        marginTop: 10,
+        color: '#333'
     },
     price: {
         display: 'flex',
@@ -180,7 +181,8 @@ const styles = StyleSheet.create({
         fontSize: 16
     },
     plainText: {
-        fontSize: 18
+        fontSize: 16,
+        color: '#333'
     },
     addTooCart: {
         justifyContent: 'space-between',

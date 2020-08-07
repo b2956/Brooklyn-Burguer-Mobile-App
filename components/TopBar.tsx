@@ -29,7 +29,8 @@ const styles = StyleSheet.create({
         marginRight: 20
     },
     text: {
-        fontSize: 25,
+        fontSize: 26,
+        fontWeight: '700', 
         color: '#fff'
     }
 });

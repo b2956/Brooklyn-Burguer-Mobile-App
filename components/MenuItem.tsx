@@ -123,7 +123,8 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 16,
         fontWeight: '700',
-        marginTop: 10
+        marginTop: 10,
+        color: '#333'
     },
     ingredients: {
         color: '#999',

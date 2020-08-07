@@ -9,8 +9,9 @@ import Menu from '../screens/Menu';
 import Orders from '../screens/Orders';
 import Chat from '../screens/Chat';
 import Cart from '../screens/Cart';
+import Checkout from '../screens/Checkout';
 
-import { BottomTabParamList, MenuParamList, OrdersParamList, ChatParamList, CartParamList } from '../types';
+import { BottomTabParamList, MenuParamList, OrdersParamList, ChatParamList, CartStackParamList } from '../types';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -47,7 +48,7 @@ export default function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Carrinho"
-        component={Cart}
+        component={CartNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="md-cart" color={color} />,
         }}
@@ -104,14 +105,29 @@ function ChatNavigator() {
   </ChatStack.Navigator>
 }
 
-const CartStack = createStackNavigator<CartParamList>();
+const CartStack = createStackNavigator<CartStackParamList>();
 
 function CartNavigator() {
-  <CartStack.Navigator>
-    <CartStack.Screen
-      name="CartScreen"
-      component={Cart}
-      options={{ headerTitle: 'Carrinho'}}
-    />
-  </CartStack.Navigator>
+  return (
+    <CartStack.Navigator 
+      initialRouteName='CartScreen'
+    >
+      <CartStack.Screen
+        name="CartScreen"
+        component={Cart}
+        options={{ 
+          headerTitle: 'Carrinho',
+          headerShown: false
+        }}
+      />
+      <CartStack.Screen
+        name="CheckoutScreen"
+        component={Checkout}
+        options={{ 
+          headerTitle: 'Checkout',
+          headerShown: false
+        }}
+      />
+    </CartStack.Navigator>
+  )
 }

@@ -63,8 +63,9 @@ export type CartItemProps = {
   discount: number
 }
 
-export type CartParamList = {
+export type CartStackParamList = {
   CartScreen: undefined
+  CheckoutScreen: undefined
 }
 
 export type MessageProps = {
@@ -146,7 +147,8 @@ export type BuyModalProps = {
   modalVisibility: boolean,
   showModal: any,
   hideModal: any,
-  addOrder: Function
+  addOrder: Function,
+  goToCheckout: Function
 }
 
 export type OrderAdress = {
