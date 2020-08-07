@@ -21,6 +21,7 @@ const Cart = ({ navigation }: any) => {
     }
 
     const addOrder = (adress: OrderAdress, location: Location) => {
+        console.log(adress, location);
         const orderItems = cart.cartItems.reduce((acc: OrderItem[], item: CartItemProps) => {
             return [
                 ...acc,
@@ -41,16 +42,17 @@ const Cart = ({ navigation }: any) => {
             orderItems: orderItems,
             timeStamp:  new Date,
             total: orderTotal,
-            status: 'pending',
+            status: 'awaiting payment',
             adress: adress,
             location: location
         }
 
-        orders.addOrder(newOrder);
+        orders.orderActions.addOrder(newOrder);
 
-        hideModal();
-
+        // hideModal();
         cart.cartActions.emptyCart();
+
+        goToCheckout();    
     }
 
     const hideModal = () => {
@@ -90,7 +92,6 @@ const Cart = ({ navigation }: any) => {
                     hideModal={hideModal}
                     showModal={showModal}
                     addOrder={addOrder}
-                    goToCheckout={goToCheckout}
                 />
             }
             {cart.cartItems.length > 0 &&

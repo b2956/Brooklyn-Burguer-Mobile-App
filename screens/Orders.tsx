@@ -6,7 +6,7 @@ import OrdersContext from '../context/OrdersContext';
 import ActiveOrder from '../components/ActiveOrder';
 
 const Orders = () => {
-  const { activeOrder } = useContext(OrdersContext);
+  const { activeOrder, orderActions } = useContext(OrdersContext);
 
     return (
         <View style={styles.container}>
@@ -21,6 +21,7 @@ const Orders = () => {
                   timeStamp={activeOrder.timeStamp}
                   total={activeOrder.total}
                   adress={activeOrder.adress}
+                  location={activeOrder.location}
                   key={activeOrder.id}
                 />
               }
@@ -32,6 +33,7 @@ const Orders = () => {
                   timeStamp={activeOrder.timeStamp}
                   total={activeOrder.total}
                   adress={activeOrder.adress}
+                  location={activeOrder.location}
                   key={activeOrder.id + 1}
                 />
               }

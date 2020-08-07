@@ -190,6 +190,16 @@ export default function App() {
     })
   }
 
+  const editOrderStatus = (status: string) => {
+    setActiveOrder(previousState => {
+
+      return {
+        ...previousState,
+        status: status
+      }
+    })
+  }
+
   if (!isLoadingComplete) {
     return null;
   } else {
@@ -202,7 +212,10 @@ export default function App() {
         }} >
           <OrdersContext.Provider value={{
             activeOrder: activeOrder,
-            addOrder: addOrder
+            orderActions: {
+              addOrder: addOrder,
+              editOrderStatus: editOrderStatus
+            }
           }} >
             <Navigation 
               colorScheme={colorScheme}

@@ -3,8 +3,6 @@ import { Modal, View, ScrollView, Text, TextInput, StyleSheet, Dimensions, Touch
 import { MaterialIcons } from '@expo/vector-icons';
 import { requestPermissionsAsync,  getCurrentPositionAsync} from 'expo-location';
 
-import MercadoPagoWebView from './MercadoPagoWebView';
-
 import { BuyModalProps, OrderAdress, Location } from '../types';
 
 import mapsApiKey from '../config/mapsApiKey';
@@ -208,12 +206,13 @@ const EndBuyModal = (props: BuyModalProps) => {
         })
     }
 
-    const getCheckout = () => {
-        props.hideModal();
-        props.goToCheckout();
-    }
+    // const getCheckout = () => {
+    //     props.hideModal();
+    //     props.addOrder();
+    // }
 
     const addNewOrder = () => {
+        props.hideModal();
         props.addOrder(orderAdress, currentPosition);
     }
 
@@ -388,7 +387,7 @@ const EndBuyModal = (props: BuyModalProps) => {
                                     </View>
                                     <TouchableOpacity
                                         style={{...styles.button}}
-                                        onPress={getCheckout}
+                                        onPress={addNewOrder}
                                     >
                                         <Text style={styles.buttonText}>Confirmar Endereço</Text>
                                     </TouchableOpacity>

@@ -8,8 +8,12 @@ const ActiveOrder = (props: OrderProps) => {
 
     const changeStatus = (propsStatus: string) => {
         switch(propsStatus) {
+            case 'awaiting payment': 
+                status = 'Aguardando Pagamento';
+                statusStyle = styles.statusTextPending;
+                break
             case 'pending':
-                status = 'Aguardando aprovação';
+                status = 'Aguardando Confirmação';
                 statusStyle = styles.statusTextPending;
                 break
             case 'aproved': 

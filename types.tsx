@@ -135,7 +135,10 @@ export type OrderProps = {
 
 export type OrderContext = {
   activeOrder: OrderProps,
-  addOrder: any
+  orderActions: {
+    addOrder: Function,
+    editOrderStatus: Function
+  }
 }
 
 export type OrderActions = {
@@ -148,7 +151,6 @@ export type BuyModalProps = {
   showModal: any,
   hideModal: any,
   addOrder: Function,
-  goToCheckout: Function
 }
 
 export type OrderAdress = {
